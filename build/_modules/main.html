@@ -83,6 +83,7 @@
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../game.html">Game Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../main.html">The Main Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Example Puzzles</a></li>
 </ul>
 
@@ -409,7 +410,7 @@
 	<span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">animate</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
 		<span class="n">game</span><span class="o">.</span><span class="n">tileInfo</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">export</span><span class="p">()</span>
 
-	<span class="k">if</span> <span class="n">solved</span> <span class="ow">and</span> <span class="n">game</span><span class="o">.</span><span class="n">findJustOne</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">solutions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">game</span><span class="o">.</span><span class="n">maxSolnsDrawn</span><span class="p">:</span>
+	<span class="k">if</span> <span class="n">solved</span> <span class="ow">and</span> <span class="n">game</span><span class="o">.</span><span class="n">findJustOne</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
 		<span class="k">return</span> <span class="bp">True</span>
 
 <span class="c"># check for duplicate solutions manually because when tiles aren&#39;t played, then duplicates appear</span>
@@ -436,16 +437,17 @@
 			<span class="c"># do not redraw solutions if more than 100 solutions</span>
 			<span class="c"># the rest can be drawn manually by invoking the [Draw Solutions] button</span>
 			<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">solutions</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">game</span><span class="o">.</span><span class="n">maxSolnsDrawn</span><span class="p">:</span>
-				<span class="n">game</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-				<span class="n">n</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">selectedFile</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-				<span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="p">:]</span>
-				<span class="n">f</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getfile</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">())))</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">solutions</span><span class="se">\\</span><span class="s">&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">solutions</span><span class="p">))</span><span class="o">+</span><span class="s">&quot;.svg&quot;</span>
-				<span class="n">d</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-				<span class="k">try</span><span class="p">:</span>
-				    <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-				<span class="k">except</span><span class="p">:</span>
-				    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-				<span class="n">canvasvg</span><span class="o">.</span><span class="n">saveall</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">game</span><span class="o">.</span><span class="n">canvas1</span><span class="p">)</span>
+				<span class="c"># # export svg of board</span>
+				<span class="c"># game.update()</span>
+				<span class="c"># n = game.selectedFile.get()</span>
+				<span class="c"># n = n[n.index(&#39;:&#39;)+2:]</span>
+				<span class="c"># f = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))+&quot;\\solutions\\&quot;+str(n)+&quot;\\&quot;+str(len(game.solutions))+&quot;.svg&quot;</span>
+				<span class="c"># d = os.path.dirname(f)</span>
+				<span class="c"># try:</span>
+				<span class="c">#     os.stat(d)</span>
+				<span class="c"># except:</span>
+				<span class="c">#     os.mkdir(d)</span>
+				<span class="c"># canvasvg.saveall(f,game.canvas1)</span>
 
 				<span class="n">game</span><span class="o">.</span><span class="n">readyToDrawSolutions</span> <span class="o">=</span> <span class="bp">True</span>
 		<span class="k">return</span> <span class="bp">True</span>
@@ -461,7 +463,7 @@
 	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tileConstraints</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">tileConstraints</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">])</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">tileGroup</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">boardConstraints</span><span class="p">[</span><span class="n">coord</span><span class="p">]):</span>
 		<span class="k">for</span> <span class="n">gridIndex</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span> <span class="ow">in</span> <span class="n">tileConstraints</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">]:</span>
 			<span class="n">solved</span> <span class="o">=</span> <span class="n">branch</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">boardConstraints</span><span class="p">,</span><span class="n">tileConstraints</span><span class="p">,(</span><span class="n">tileGroup</span><span class="p">,</span><span class="n">gridIndex</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">))</span>
-			<span class="k">if</span> <span class="n">solved</span> <span class="ow">and</span> <span class="n">game</span><span class="o">.</span><span class="n">findJustOne</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">solutions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">game</span><span class="o">.</span><span class="n">maxSolnsDrawn</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">solved</span> <span class="ow">and</span> <span class="n">game</span><span class="o">.</span><span class="n">findJustOne</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
 				<span class="k">return</span> <span class="bp">True</span>
 		<span class="n">canSolveWithoutTile</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">boardConstraints</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">tiles</span><span class="p">[</span><span class="n">tg</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">size</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">tg</span><span class="p">)</span> <span class="k">for</span> <span class="n">tg</span> <span class="ow">in</span> <span class="n">tileConstraints</span><span class="p">])</span> <span class="o">-</span>  <span class="n">tiles</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">size</span>
 		<span class="k">if</span> <span class="n">canSolveWithoutTile</span><span class="p">:</span>
@@ -477,12 +479,12 @@
 				<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">boardConstraints</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 					<span class="k">return</span>
 			<span class="n">solved</span> <span class="o">=</span> <span class="n">dance</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">boardConstraints</span><span class="p">,</span><span class="n">tileConstraints</span><span class="p">)</span>
-			<span class="k">if</span> <span class="n">solved</span> <span class="ow">and</span> <span class="n">game</span><span class="o">.</span><span class="n">findJustOne</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">solutions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">game</span><span class="o">.</span><span class="n">maxSolnsDrawn</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">solved</span> <span class="ow">and</span> <span class="n">game</span><span class="o">.</span><span class="n">findJustOne</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
 				<span class="k">return</span> <span class="bp">True</span>
 	<span class="k">else</span><span class="p">:</span>
 		<span class="k">for</span> <span class="n">move</span> <span class="ow">in</span> <span class="n">boardConstraints</span><span class="p">[</span><span class="n">coord</span><span class="p">]:</span>
 			<span class="n">solved</span> <span class="o">=</span> <span class="n">branch</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">boardConstraints</span><span class="p">,</span><span class="n">tileConstraints</span><span class="p">,</span><span class="n">move</span><span class="p">)</span>
-			<span class="k">if</span> <span class="n">solved</span> <span class="ow">and</span> <span class="n">game</span><span class="o">.</span><span class="n">findJustOne</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">solutions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">game</span><span class="o">.</span><span class="n">maxSolnsDrawn</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">solved</span> <span class="ow">and</span> <span class="n">game</span><span class="o">.</span><span class="n">findJustOne</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
 				<span class="k">return</span> <span class="bp">True</span>
 </div>
 <div class="viewcode-block" id="createConstraintLists"><a class="viewcode-back" href="../main.html#main.createConstraintLists">[docs]</a><span class="k">def</span> <span class="nf">createConstraintLists</span><span class="p">(</span><span class="n">game</span><span class="p">):</span>
@@ -616,8 +618,8 @@
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
 		<span class="s">&#39;BOARD_WIDTH&#39;</span> <span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
-		<span class="s">&#39;SEPARATOR_WIDTH&#39;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-		<span class="s">&#39;PILE_WIDTH&#39;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+		<span class="s">&#39;SEPARATOR_WIDTH&#39;</span> <span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+		<span class="s">&#39;PILE_WIDTH&#39;</span> <span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
 		<span class="s">&#39;TILELIST_WIDTH&#39;</span> <span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
 		<span class="s">&#39;CANVAS_HEIGHT&#39;</span> <span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
 		<span class="s">&#39;BORDER_WIDTH&#39;</span> <span class="p">:</span> <span class="mi">40</span><span class="p">,</span>

@@ -4,6 +4,8 @@ These are some puzzles with their respective solution listings. A maximum of 36 
 
 Checkerboard
 ------------
+Click :download:`here <../puzzles/checkerboard.txt>` for board and tile configuration file.
+
 .. image:: ../solutions/checkerboard/1.svg
 	:width: 20%
 .. image:: ../solutions/checkerboard/2.svg
@@ -79,6 +81,8 @@ Checkerboard
 
 Custom1
 -------
+Click :download:`here <../puzzles/custom1.txt>` for board and tile configuration file.
+
 .. image:: ../solutions/custom1/1.svg
 	:width: 20%
 .. image:: ../solutions/custom1/2.svg
@@ -146,6 +150,8 @@ Custom1
 
 Partial Cross
 -------------
+Click :download:`here <../puzzles/partial_cross.txt>` for board and tile configuration file.
+
 .. image:: ../solutions/partial_cross/1.svg
 	:width: 20%
 .. image:: ../solutions/partial_cross/2.svg
@@ -221,6 +227,8 @@ Partial Cross
 
 Pentominoes [3x20]
 ------------------
+Click :download:`here <../puzzles/pentominoes3x20.txt>` for board and tile configuration file.
+
 .. image:: ../solutions/pentominoes3x20/1.svg
 	:width: 20%
 .. image:: ../solutions/pentominoes3x20/2.svg
@@ -228,6 +236,8 @@ Pentominoes [3x20]
 
 Pentominoes [4x15]
 ------------------
+Click :download:`here <../puzzles/pentominoes4x15.txt>` for board and tile configuration file.
+
 .. image:: ../solutions/pentominoes4x15/1.svg
 	:width: 20%
 .. image:: ../solutions/pentominoes4x15/2.svg
@@ -303,6 +313,8 @@ Pentominoes [4x15]
 
 Pentominoes [5x12]
 ------------------
+Click :download:`here <../puzzles/pentominoes5x12.txt>` for board and tile configuration file.
+
 .. image:: ../solutions/pentominoes5x12/1.svg
 	:width: 20%
 .. image:: ../solutions/pentominoes5x12/2.svg
@@ -378,6 +390,8 @@ Pentominoes [5x12]
 
 Pentominoes [6x10]
 ------------------
+Click :download:`here <../puzzles/pentominoes6x10.txt>` for board and tile configuration file.
+
 .. image:: ../solutions/pentominoes6x10/1.svg
 	:width: 20%
 .. image:: ../solutions/pentominoes6x10/2.svg
@@ -453,6 +467,8 @@ Pentominoes [6x10]
 
 Pentominoes [8x8] Middle Missing
 --------------------------------
+Click :download:`here <../puzzles/pentominoes8x8_middle_missing.txt>` for board and tile configuration file.
+
 .. image:: ../solutions/pentominoes8x8_middle_missing/1.svg
 	:width: 20%
 .. image:: ../solutions/pentominoes8x8_middle_missing/2.svg
@@ -528,21 +544,29 @@ Pentominoes [8x8] Middle Missing
 
 Simple
 ------
+Click :download:`here <../puzzles/simple.txt>` for board and tile configuration file.
+
 .. image:: ../solutions/simple/1.svg
 	:width: 20%
 
 Test1
 -----
+Click :download:`here <../puzzles/test1.txt>` for board and tile configuration file.
+
 .. image:: ../solutions/test1/1.svg
 	:width: 20%
 
 Test2
 -----
+Click :download:`here <../puzzles/test2.txt>` for board and tile configuration file.
+
 .. image:: ../solutions/test2/1.svg
 	:width: 20%
 
 Thirteen Holes
 --------------
+Click :download:`here <../puzzles/thirteen_holes.txt>` for board and tile configuration file.
+
 .. image:: ../solutions/thirteen_holes/1.svg
 	:width: 20%
 .. image:: ../solutions/thirteen_holes/2.svg
@@ -550,5 +574,7 @@ Thirteen Holes
 
 Trivial
 -------
+Click :download:`here <../puzzles/trivial.txt>` for board and tile configuration file.
+
 .. image:: ../solutions/trivial/1.svg
 	:width: 20%

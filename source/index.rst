@@ -13,6 +13,7 @@ Contents:
 
    game.rst
    main.rst
+   demos.rst
    examples.rst
 
 Indices and tables

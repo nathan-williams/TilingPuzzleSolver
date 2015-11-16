@@ -13,6 +13,7 @@ Contents:
 
    game.rst
    main.rst
+   demos.rst
    examples.rst
 
 Indices and tables
@@ -21,3 +22,5 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+For further discussion of the project, please click :download:`here <../Paper.pdf>`.
