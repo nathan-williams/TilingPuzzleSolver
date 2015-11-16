@@ -1,0 +1,482 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The Main Module &mdash; Tiling Puzzle Solver 1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Tiling Puzzle Solver 1 documentation" href="index.html"/>
+        <link rel="next" title="Example Puzzles" href="examples.html"/>
+        <link rel="prev" title="Game Module" href="game.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Tiling Puzzle Solver
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="game.html">Game Module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">The Main Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Example Puzzles</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Tiling Puzzle Solver</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>The Main Module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/main.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-main"></span><div class="section" id="the-main-module">
+<h1>The Main Module<a class="headerlink" href="#the-main-module" title="Permalink to this headline">¶</a></h1>
+<p>This is the module containing the logic to solve the puzzles automatically.</p>
+<dl class="function">
+<dt>
+<code class="descclassname">main.</code><code class="descname">getGridOfTileLocationsOnBoard</code><span class="sig-paren">(</span><em>game</em>, <em>export</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#getGridOfTileLocationsOnBoard"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Creates a grid containing the tileGroup occupying each space in the grid.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game</strong> (<a class="reference internal" href="game.html#game.Game" title="game.Game"><em>Game</em></a>) &#8211; the game containing board and tile information</li>
+<li><strong>export</strong> (<em>dict&lt;int,tuple(int,int,int,int,bool,int)&gt;</em>) &#8211; dictionary of tuples(row,col,x,y,spawned,gridIndex) describing each of the tiles&#8217; states</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a 2-D array similar to the board; each cell in the grid is None, if no tile is occupying that space, or a tileKey</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">2-D array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">main.</code><code class="descname">duplicateSolution</code><span class="sig-paren">(</span><em>game</em>, <em>export</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#duplicateSolution"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Determines whether the solution desribed by export has already been found.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game</strong> (<a class="reference internal" href="game.html#game.Game" title="game.Game"><em>Game</em></a>) &#8211; the game containing board and tile information</li>
+<li><strong>export</strong> (<em>dict&lt;int,tuple(int,int,int,int,bool,int)&gt;</em>) &#8211; dictionary of tuples(row,col,x,y,spawned,gridIndex) describing each of the tiles&#8217; states</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True if a solution equivalent to that described by export is already in game.solutions</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">2-D array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">main.</code><code class="descname">permute</code><span class="sig-paren">(</span><em>game</em>, <em>tileList</em>, <em>index</em>, <em>startrow=0</em>, <em>startcol=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#permute"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Find solutions by permuting through orders of tielList.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game</strong> (<a class="reference internal" href="game.html#game.Game" title="game.Game"><em>Game</em></a>) &#8211; the game containing board and tile information</li>
+<li><strong>tileList</strong> (<em>list(Tile)</em>) &#8211; the list of tiles</li>
+<li><strong>index</strong> (<em>int</em>) &#8211; index of tileList to focus on where you should keep permuting from</li>
+<li><strong>startrow</strong> (<em>int</em>) &#8211; the row to start scanning from; defaults to 0</li>
+<li><strong>startcol</strong> (<em>int</em>) &#8211; the col to start scanning from; defaults to 0</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True if tileList is a solution</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">main.</code><code class="descname">bruteForce</code><span class="sig-paren">(</span><em>game</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#bruteForce"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Find solution(s) with brute force method. All possible permutations of the tile list are tried out.
+The idea was that the tiles could be placed in a well-defined and consistent fashion if the left-most space of the top row of the tile is aligned with the (row,col) of the tile.
+By this method, only certain orderings of the tiles will result in a filled board.
+Branches could be cut whenever the tile in its current position in the permutation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game</strong> (<a class="reference internal" href="game.html#game.Game" title="game.Game"><em>Game</em></a>) &#8211; the game containing board and tile information</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">main.</code><code class="descname">cleanConstraints</code><span class="sig-paren">(</span><em>game</em>, <em>boardConstraints</em>, <em>tileConstraints</em>, <em>move</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#cleanConstraints"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Updates the constraint lists so that moves that have become invalid after some move was executed are no longer present. These moves may have become invalid because the tile was played already or the tile consumed that space on the board.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game</strong> (<a class="reference internal" href="game.html#game.Game" title="game.Game"><em>Game</em></a>) &#8211; the game containing board and tile information</li>
+<li><strong>boardConstraints</strong> (<em>dict&lt;tuple(int,int),list((tuple,int,int,int))&gt;</em>) &#8211; contains a constraint for each unoccupied board space; key values are (row,col) pairs corresponding to unoccupied board spaces; values are lists of possible moves in the form of (tileGroup,row,col,gridIndex)</li>
+<li><strong>tileConstraints</strong> (<em>dict&lt;tuple(int,int,...),list((int,int,int))&gt;</em>) &#8211; contains a constraint for each tile; key values are tileGroups; values are lists of possible moves in the form (row,col,gridIndex)</li>
+<li><strong>move</strong> (<em>tuple(tuple,int,int,int)</em>) &#8211; describes the move to be executed of the form (tileGroup,row,col,gridIndex)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True if there is a possible move to satisfy every board constraint; False if there is a board constraint that cannot be satisfied with any available tiles</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">main.</code><code class="descname">branch</code><span class="sig-paren">(</span><em>game</em>, <em>boardConstraints</em>, <em>tileConstraints</em>, <em>move</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#branch"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Executes a move, updates the constraint lists, and continues branching if there is still at least one valid move to satisfy every board constraint.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>game</strong> (<a class="reference internal" href="game.html#game.Game" title="game.Game"><em>Game</em></a>) &#8211; the game containing board and tile information</li>
+<li><strong>boardConstraints</strong> (<em>dict&lt;tuple(int,int),list((tuple,int,int,int))&gt;</em>) &#8211; contains a constraint for each unoccupied board space; key values are (row,col) pairs corresponding to unoccupied board spaces; values are lists of possible moves in the form of (tileGroup,row,col,gridIndex)</li>
+<li><strong>tileConstraints</strong> (<em>dict&lt;tuple(int,int,...),list((int,int,int))&gt;</em>) &#8211; contains a constraint for each tile; key values are tileGroups; values are lists of possible moves in the form (row,col,gridIndex)</li>
+<li><strong>move</strong> (<em>tuple(tuple,int,int,int)</em>) &#8211; describes the move to be executed of the form (tileGroup,row,col,gridIndex)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">main.</code><code class="descname">dance</code><span class="sig-paren">(</span><em>game</em>, <em>boardConstraints</em>, <em>tileConstraints</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#dance"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Dances through the board constraints looking for tile solutions. The next move is chosen using the list of possible moves for the constraint with the least number of possible moves.
+For each of those possible moves, a branch is spawned and explored. If the board can be filled with the other tiles besides the one that is
+being branched with, then we will still have to branch again after eliminating that tile.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>game</strong> (<a class="reference internal" href="game.html#game.Game" title="game.Game"><em>Game</em></a>) &#8211; the game containing board and tile information</li>
+<li><strong>boardConstraints</strong> (<em>dict&lt;tuple(int,int),list((tuple,int,int,int))&gt;</em>) &#8211; contains a constraint for each unoccupied board space; key values are (row,col) pairs corresponding to unoccupied board spaces; values are lists of possible moves in the form of (tileGroup,row,col,gridIndex)</li>
+<li><strong>tileConstraints</strong> (<em>dict&lt;tuple(int,int,...),list((int,int,int))&gt;</em>) &#8211; contains a constraint for each tile; key values are tileGroups; values are lists of possible moves in the form (row,col,gridIndex)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">main.</code><code class="descname">createConstraintLists</code><span class="sig-paren">(</span><em>game</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#createConstraintLists"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Creates the initial constraint lists by compiling a list of all possible moves that can satisfy a certain constraint. A board constraints list, in which each constraint corresponds
+to a space on the board, and a tile constraint list, in which each constraint corresponds to a tile in the tile bucket, are both created.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game</strong> (<a class="reference internal" href="game.html#game.Game" title="game.Game"><em>Game</em></a>) &#8211; the game containing board and tile information</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the two dictionaries, boardConstraints and tileConstraints</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">tuple(dict,dict)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">main.</code><code class="descname">dancingLinks</code><span class="sig-paren">(</span><em>game</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#dancingLinks"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Dancing links is a more creative approach to searching the solution space. The name may be misleading, as the acutal &#8220;Dancing Links&#8221; algorithm was not implemented here. More over, 
+&#8220;Dancing Links&#8221; is less of a true algorithm and more of an exploitation of the linked list data structure. This algorithm relies on minimizing the branching factor at each 
+decision point. As such, when a branch is cut, more possibilities can be eliminated at one time. Although the added sophistication requires extra processing between moves, 
+the benefits outweight the costs in this case.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game</strong> (<a class="reference internal" href="game.html#game.Game" title="game.Game"><em>Game</em></a>) &#8211; the game containing board and tile information</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">main.</code><code class="descname">printTileConstraints</code><span class="sig-paren">(</span><em>tileConstraints</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#printTileConstraints"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Used for debugging. Prints the tile constraints dictionary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tileConstraints</strong> (<em>dict</em>) &#8211; dictionary of tile constraints</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">main.</code><code class="descname">printBoardConstraints</code><span class="sig-paren">(</span><em>boardConstraints</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#printBoardConstraints"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Used for debugging. Prints the board constraints dictionary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tileConstraints</strong> (<em>dict</em>) &#8211; dictionary of board constraints</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">main.</code><code class="descname">doInExternalThread</code><span class="sig-paren">(</span><em>game</em>, <em>f</em>, <em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#doInExternalThread"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Spawns a daemon thread to execute the given function if the multithread setting is on; otherwise the main thread is used. The main thread is much faster, but the GUI will freeze during long 
+computations if the main thread is used.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>game</strong> (<a class="reference internal" href="game.html#game.Game" title="game.Game"><em>Game</em></a>) &#8211; the game containing board and tile information</li>
+<li><strong>f</strong> (<em>func</em>) &#8211; function to be executed</li>
+<li><strong>a</strong> (<em>tuple</em>) &#8211; args for the function</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">main.</code><code class="descname">load</code><span class="sig-paren">(</span><em>game</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#load"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Loads the currently selected file and updates the display.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game</strong> (<a class="reference internal" href="game.html#game.Game" title="game.Game"><em>Game</em></a>) &#8211; the game containing board and tile information</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">main.</code><code class="descname">diagnostics</code><span class="sig-paren">(</span><em>game</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#diagnostics"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Automatically time all puzzle solves under current settings. Dancing Links is used instead of brute force beause otherwise many of the puzzles would not finish.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game</strong> (<a class="reference internal" href="game.html#game.Game" title="game.Game"><em>Game</em></a>) &#8211; the game containing board and tile information</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">main.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#main"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Initializes the functional section of the user interface and starts TKinter&#8217;s main graphics loop.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="examples.html" class="btn btn-neutral float-right" title="Example Puzzles" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="game.html" class="btn btn-neutral" title="Game Module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Nathan Williams.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

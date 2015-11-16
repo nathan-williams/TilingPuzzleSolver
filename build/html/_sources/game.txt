@@ -1,0 +1,33 @@
+Game Module
+===========
+This is a custom made library to facilitate the graphics, solving, and general gameplay of the Tiling Puzzle Game.
+
+.. automodule:: game
+
+Game Class
+----------
+.. autoclass:: game.Game
+	:members:
+
+Board Class
+-----------
+.. autoclass:: game.Board
+	:members:
+
+TileBucket Class
+----------------
+.. autoclass:: game.TileBucket
+	:members:
+
+Tile Class
+----------
+.. autoclass:: game.Tile
+	:members:
+
+TileBuilder Class
+-----------------
+.. autoclass:: game.TileBuilder
+	:members:
+
+Static Methods
+--------------

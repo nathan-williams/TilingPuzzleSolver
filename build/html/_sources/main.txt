@@ -1,0 +1,8 @@
+The Main Module
+===============
+This is the module containing the logic to solve the puzzles automatically.
+
+Functions
+---------
+.. automodule:: main
+	:undoc-members:

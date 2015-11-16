@@ -1,0 +1,1074 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>game &mdash; Tiling Puzzle Solver 1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Tiling Puzzle Solver 1 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Tiling Puzzle Solver
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../game.html">Game Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../main.html">The Main Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Example Puzzles</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Tiling Puzzle Solver</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      
+    <li>game</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for game</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># from Tkinter import *</span>
+<span class="kn">from</span> <span class="nn">mtTkinter</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">tkFont</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<div class="viewcode-block" id="Board"><a class="viewcode-back" href="../game.html#game.Board">[docs]</a><span class="k">class</span> <span class="nc">Board</span><span class="p">:</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Represents the board state, including properties of each space in the board and what spaces are occupied.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Board.__init__"><a class="viewcode-back" href="../game.html#game.Board.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">game</span><span class="p">,</span><span class="n">grid</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Class constructor.</span>
+
+<span class="sd">		:param game: contains display settings</span>
+<span class="sd">		:type game: Game</span>
+<span class="sd">		:param grid: grid of board spaces</span>
+<span class="sd">		:type grid: 2-D array</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+		<span class="n">borderWidth</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">borderWidth</span>
+		<span class="n">gridlineWidth</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">gridlineWidth</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">grid</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">occupied</span> <span class="o">=</span> <span class="p">[[</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39; &#39;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">)]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">)]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">sum</span><span class="p">([</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupied</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">)])</span>
+
+		<span class="c"># Logic for uniform square spaces on board and centered board on canvas.</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">xMargin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yMargin</span> <span class="o">=</span> <span class="n">borderWidth</span>
+		<span class="n">block_height</span> <span class="o">=</span> <span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">canvasHeight</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">borderWidth</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span>
+		<span class="n">block_width</span> <span class="o">=</span> <span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">boardWidth</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">borderWidth</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">blockSize</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">block_height</span><span class="p">,</span><span class="n">block_width</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">block_height</span> <span class="o">&lt;</span> <span class="n">block_width</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">xMargin</span> <span class="o">+=</span> <span class="p">((</span><span class="n">game</span><span class="o">.</span><span class="n">boardWidth</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">borderWidth</span><span class="p">)</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">blockSize</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">yMargin</span> <span class="o">+=</span> <span class="p">((</span><span class="n">game</span><span class="o">.</span><span class="n">canvasHeight</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">borderWidth</span><span class="p">)</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">blockSize</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+
+		<span class="c"># Check for symmetry</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">horizontalSymmetry</span> <span class="o">=</span> <span class="n">equivalentGrids</span><span class="p">(</span><span class="n">flipHorizontally</span><span class="p">(</span><span class="n">grid</span><span class="p">),</span><span class="n">grid</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">verticalSymmetry</span> <span class="o">=</span> <span class="n">equivalentGrids</span><span class="p">(</span><span class="n">flipVertically</span><span class="p">(</span><span class="n">grid</span><span class="p">),</span><span class="n">grid</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">rotationalSymmetry</span> <span class="o">=</span> <span class="p">[</span><span class="n">equivalentGrids</span><span class="p">(</span><span class="n">rotateNTimes</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">grid</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+</div>
+<div class="viewcode-block" id="Board.validMove"><a class="viewcode-back" href="../game.html#game.Board.validMove">[docs]</a>	<span class="k">def</span> <span class="nf">validMove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tile</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Determines whether the given tile may be placed on the board at row *r* and col *c*.</span>
+
+<span class="sd">		:param tile: tile to check</span>
+<span class="sd">		:type tile: Tile</span>
+<span class="sd">		:param r: row at which to check if tile can be placed</span>
+<span class="sd">		:type r: int</span>
+<span class="sd">		:param c: col at which to check if tile can be placed</span>
+<span class="sd">		:type c: int</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="bp">False</span>
+		<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">)):</span>
+			<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+				<span class="k">if</span> <span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+					<span class="k">if</span> <span class="n">c</span><span class="o">+</span><span class="n">col</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">or</span> <span class="n">r</span><span class="o">+</span><span class="n">row</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupied</span><span class="p">[</span><span class="n">r</span><span class="o">+</span><span class="n">row</span><span class="p">][</span><span class="n">c</span><span class="o">+</span><span class="n">col</span><span class="p">]</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="o">+</span><span class="n">row</span><span class="p">][</span><span class="n">c</span><span class="o">+</span><span class="n">col</span><span class="p">]</span> <span class="o">!=</span> <span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]:</span>
+						<span class="k">return</span> <span class="bp">False</span>
+		<span class="k">return</span> <span class="bp">True</span></div>
+<div class="viewcode-block" id="Board.placeTile"><a class="viewcode-back" href="../game.html#game.Board.placeTile">[docs]</a>	<span class="k">def</span> <span class="nf">placeTile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tile</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Places tile and updates the board accordingly.</span>
+
+<span class="sd">		:param tile: the tile being placed</span>
+<span class="sd">		:type tile: Tile</span>
+<span class="sd">		:param r: row at which to play tile</span>
+<span class="sd">		:type r: int</span>
+<span class="sd">		:param c: col at which to play tile</span>
+<span class="sd">		:type c: int</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">)):</span>
+			<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+				<span class="k">if</span> <span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">occupied</span><span class="p">[</span><span class="n">r</span><span class="o">+</span><span class="n">row</span><span class="p">][</span><span class="n">c</span><span class="o">+</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+		<span class="n">tile</span><span class="o">.</span><span class="n">placeTile</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Board.removeTile"><a class="viewcode-back" href="../game.html#game.Board.removeTile">[docs]</a>	<span class="k">def</span> <span class="nf">removeTile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tile</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Takes tile off of board.</span>
+
+<span class="sd">		:param tile: the tile to be removed from the board and despawned</span>
+<span class="sd">		:type tile: Tile</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">)):</span>
+			<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+				<span class="k">if</span> <span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">occupied</span><span class="p">[</span><span class="n">tile</span><span class="o">.</span><span class="n">row</span><span class="o">+</span><span class="n">row</span><span class="p">][</span><span class="n">tile</span><span class="o">.</span><span class="n">col</span><span class="o">+</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+		<span class="n">tile</span><span class="o">.</span><span class="n">despawnTile</span><span class="p">()</span></div>
+<div class="viewcode-block" id="Board.clear"><a class="viewcode-back" href="../game.html#game.Board.clear">[docs]</a>	<span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Resets the board so that no spaces are occupied.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">occupied</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39; &#39;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">)]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">)]</span></div>
+<div class="viewcode-block" id="Board.nextEmptySpace"><a class="viewcode-back" href="../game.html#game.Board.nextEmptySpace">[docs]</a>	<span class="k">def</span> <span class="nf">nextEmptySpace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startrow</span><span class="p">,</span> <span class="n">startcol</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Returns the next empty spaced, scanning the board top to bottom, left to right.</span>
+
+<span class="sd">		:param startrow: the row to start scanning from</span>
+<span class="sd">		:type startrow: int</span>
+<span class="sd">		:param startcol: the col to start scanning from</span>
+<span class="sd">		:type startcol: int</span>
+<span class="sd">		:returns: (row,col) tuple corresponding to first empty space in the board</span>
+<span class="sd">		:rtype: tuple(int,int)</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">row</span> <span class="o">=</span> <span class="n">startrow</span>
+		<span class="n">col</span> <span class="o">=</span> <span class="n">startcol</span>
+		<span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupied</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]:</span>
+			<span class="n">col</span> <span class="o">+=</span> <span class="mi">1</span>
+			<span class="k">if</span> <span class="n">col</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">:</span>
+				<span class="n">col</span> <span class="o">=</span> <span class="mi">0</span>
+				<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+				<span class="k">if</span> <span class="n">row</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">:</span>
+					<span class="k">print</span> <span class="n">row</span>
+					<span class="n">printGrid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">occupied</span><span class="p">)</span>
+					<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span>
+		<span class="k">return</span> <span class="n">row</span><span class="p">,</span><span class="n">col</span>
+</div></div>
+<div class="viewcode-block" id="TileBuilder"><a class="viewcode-back" href="../game.html#game.TileBuilder">[docs]</a><span class="k">class</span> <span class="nc">TileBuilder</span><span class="p">:</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Helper class used to create the tiles.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TileBuilder.__init__"><a class="viewcode-back" href="../game.html#game.TileBuilder.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">v</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Class constructor.</span>
+
+<span class="sd">		:param v: the character to be stored in the cell</span>
+<span class="sd">		:type v: char</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">v</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">north</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">east</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">south</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">west</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="p">[[</span><span class="n">v</span><span class="p">]]</span>
+</div></div>
+<div class="viewcode-block" id="Tile"><a class="viewcode-back" href="../game.html#game.Tile">[docs]</a><span class="k">class</span> <span class="nc">Tile</span><span class="p">:</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Represents the tiles in the game.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Tile.__init__"><a class="viewcode-back" href="../game.html#game.Tile.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Class constructor.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">spawned</span> <span class="o">=</span> <span class="bp">False</span> <span class="c"># Boolean for whether tile should be drawn in pile/board</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">col</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c"># coordinate of top left element of grid on board; -1 means not on board</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">row</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c"># coordinate of top left element of grid on board; -1 means not on board</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c"># coordinate on canvas; -1 means not on board</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c"># coordinate on canvas; -1 means not on board</span>
+</div>
+<div class="viewcode-block" id="Tile.spawnTile"><a class="viewcode-back" href="../game.html#game.Tile.spawnTile">[docs]</a>	<span class="k">def</span> <span class="nf">spawnTile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">game</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Takes the tile out of the tile list and moves it to a random spot in the pile (not on the board).</span>
+
+<span class="sd">		:param game: the game containing board and tile information</span>
+<span class="sd">		:type game: Game</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">spawned</span> <span class="o">=</span> <span class="bp">True</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">col</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">row</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">boardWidth</span><span class="o">+</span><span class="n">game</span><span class="o">.</span><span class="n">separatorWidth</span><span class="o">+</span><span class="n">game</span><span class="o">.</span><span class="n">borderWidth</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">pileWidth</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">game</span><span class="o">.</span><span class="n">borderWidth</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="n">game</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">borderWidth</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">canvasHeight</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">game</span><span class="o">.</span><span class="n">borderWidth</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span><span class="o">*</span><span class="n">game</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span><span class="p">))</span></div>
+<div class="viewcode-block" id="Tile.despawnTile"><a class="viewcode-back" href="../game.html#game.Tile.despawnTile">[docs]</a>	<span class="k">def</span> <span class="nf">despawnTile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Returns tile to tile list and resets both board and game coordinates.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">spawned</span> <span class="o">=</span> <span class="bp">False</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">col</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">row</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span></div>
+<div class="viewcode-block" id="Tile.placeTile"><a class="viewcode-back" href="../game.html#game.Tile.placeTile">[docs]</a>	<span class="k">def</span> <span class="nf">placeTile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Spawns the tile and updates its board coordinates.</span>
+
+<span class="sd">		:param r: row coordinate</span>
+<span class="sd">		:type r: int</span>
+<span class="sd">		:param c: row coordinate</span>
+<span class="sd">		:type c: int</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">spawned</span> <span class="o">=</span> <span class="bp">True</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">row</span> <span class="o">=</span> <span class="n">r</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">col</span> <span class="o">=</span> <span class="n">c</span></div>
+<div class="viewcode-block" id="Tile.drawInList"><a class="viewcode-back" href="../game.html#game.Tile.drawInList">[docs]</a>	<span class="k">def</span> <span class="nf">drawInList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">game</span><span class="p">,</span><span class="n">canvas</span><span class="p">,</span><span class="n">blockSize</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Draws this tile in the tile list. If the tile is spawned, it is drawn in grayscale.</span>
+
+<span class="sd">		:param x: describes top-left of block of tile list in which to draw the tile</span>
+<span class="sd">		:type x: int</span>
+<span class="sd">		:param y: describes top-left of block of tile list in which to draw the tile</span>
+<span class="sd">		:type y: int</span>
+<span class="sd">		:param game: the game containing board and tile information</span>
+<span class="sd">		:type game: Game</span>
+<span class="sd">		:param canvas: the canvas on which to draw the tile list</span>
+<span class="sd">		:type canvas: TKinter.Canvas</span>
+<span class="sd">		:param blockSize: the desired size of the blocks within the tile list, which is calculated outside the function in order to have uniformity across the tile list</span>
+<span class="sd">		:type blockSize: int</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span>
+		<span class="n">board</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">board</span>
+
+		<span class="c"># Center tile</span>
+		<span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">tilelistWidth</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">game</span><span class="o">.</span><span class="n">tilelistBorderWidth</span><span class="p">)</span><span class="o">*</span><span class="n">game</span><span class="o">.</span><span class="n">tilelistImageAreaFactor</span>
+		<span class="n">x</span> <span class="o">+=</span> <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">blockSize</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span><span class="o">/</span><span class="mi">2</span>
+		<span class="n">y</span> <span class="o">+=</span> <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">blockSize</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span>
+
+		<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+			<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+				<span class="n">c</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span>
+				<span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+					<span class="n">x1</span> <span class="o">=</span> <span class="n">x</span><span class="o">+</span><span class="n">col</span><span class="o">*</span><span class="n">blockSize</span>
+					<span class="n">y1</span> <span class="o">=</span> <span class="n">y</span><span class="o">+</span><span class="n">row</span><span class="o">*</span><span class="n">blockSize</span>
+					<span class="n">x2</span> <span class="o">=</span> <span class="n">x1</span><span class="o">+</span><span class="n">blockSize</span>
+					<span class="n">y2</span> <span class="o">=</span> <span class="n">y1</span><span class="o">+</span><span class="n">blockSize</span>
+					<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="n">game</span><span class="o">.</span><span class="n">gridlineWidth</span><span class="p">,</span><span class="n">outline</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+			<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+				<span class="n">c</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span>
+				<span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+					<span class="n">color1</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileColors</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">spawned</span> <span class="k">else</span> <span class="n">toGrayScale</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">tileColors</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">])</span>
+					<span class="n">color2</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">boardColors</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">spawned</span> <span class="k">else</span> <span class="n">toGrayScale</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">boardColors</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+					<span class="n">x1</span> <span class="o">=</span> <span class="n">x</span><span class="o">+</span><span class="n">col</span><span class="o">*</span><span class="n">blockSize</span>
+					<span class="n">y1</span> <span class="o">=</span> <span class="n">y</span><span class="o">+</span><span class="n">row</span><span class="o">*</span><span class="n">blockSize</span>
+					<span class="n">x2</span> <span class="o">=</span> <span class="n">x1</span><span class="o">+</span><span class="n">blockSize</span>
+					<span class="n">y2</span> <span class="o">=</span> <span class="n">y1</span><span class="o">+</span><span class="n">blockSize</span>
+					<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">color1</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+					<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">x1</span><span class="o">+</span><span class="n">blockSize</span><span class="o">*</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="n">y1</span><span class="o">+</span><span class="n">blockSize</span><span class="o">*</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="n">x2</span><span class="o">-</span><span class="n">blockSize</span><span class="o">*</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="n">y2</span><span class="o">-</span><span class="n">blockSize</span><span class="o">*</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">color2</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</div></div>
+<div class="viewcode-block" id="TileBucket"><a class="viewcode-back" href="../game.html#game.TileBucket">[docs]</a><span class="k">class</span> <span class="nc">TileBucket</span><span class="p">:</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Container for all tiles.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TileBucket.__init__"><a class="viewcode-back" href="../game.html#game.TileBucket.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">game</span><span class="p">,</span><span class="n">tiles</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Class constructor.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tiles</span> <span class="o">=</span> <span class="n">tiles</span>
+		<span class="n">largestTileDim</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tiles</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">blockSize</span> <span class="o">=</span> <span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">tilelistWidth</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">game</span><span class="o">.</span><span class="n">tilelistBorderWidth</span><span class="p">)</span><span class="o">*</span><span class="n">game</span><span class="o">.</span><span class="n">tilelistImageAreaFactor</span> <span class="o">/</span> <span class="n">largestTileDim</span></div>
+<div class="viewcode-block" id="TileBucket.drawTileList"><a class="viewcode-back" href="../game.html#game.TileBucket.drawTileList">[docs]</a>	<span class="k">def</span> <span class="nf">drawTileList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">game</span><span class="p">,</span><span class="n">canvas</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Draws tile list. Spawned tiles are grayed out.</span>
+
+<span class="sd">		:param game: contains drawing constants</span>
+<span class="sd">		:type game: Game</span>
+<span class="sd">		:param canvas: the canvas on which to draw the tileBucket</span>
+<span class="sd">		:type canvas: TKinter.Canvas</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">size</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tilelistWidth</span>
+		<span class="n">bw</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tilelistBorderWidth</span>
+		<span class="n">tiles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiles</span>
+
+		<span class="n">canvas</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">scrollregion</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">size</span><span class="p">,</span><span class="n">size</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">tiles</span><span class="p">)</span><span class="o">+</span><span class="n">bw</span><span class="o">-</span><span class="n">bw</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">tiles</span><span class="p">)))</span>
+		<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">size</span><span class="p">,</span><span class="n">size</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">tiles</span><span class="p">)</span><span class="o">+</span><span class="n">bw</span><span class="o">-</span><span class="n">bw</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">tiles</span><span class="p">),</span><span class="n">fill</span><span class="o">=</span><span class="n">game</span><span class="o">.</span><span class="n">bgColor</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+		<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">tiles</span><span class="p">:</span>
+			<span class="n">tile</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+			<span class="n">bgColor</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">bgColor</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">tile</span><span class="o">.</span><span class="n">spawned</span> <span class="k">else</span> <span class="n">toGrayScale</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">bgColor</span><span class="p">)</span>
+			<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">bw</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">count</span><span class="o">*</span><span class="n">size</span><span class="o">+</span><span class="n">bw</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="n">bw</span><span class="o">*</span><span class="n">count</span><span class="p">,</span><span class="n">size</span><span class="o">-</span><span class="n">bw</span><span class="o">/</span><span class="mi">2</span><span class="p">,(</span><span class="n">count</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">size</span><span class="o">-</span><span class="n">bw</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="n">bw</span><span class="o">*</span><span class="n">count</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">bgColor</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="n">bw</span><span class="p">)</span>
+			<span class="n">x</span> <span class="o">=</span> <span class="n">bw</span><span class="o">+</span><span class="p">(</span><span class="n">size</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">bw</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">game</span><span class="o">.</span><span class="n">tilelistImageAreaFactor</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+			<span class="n">y</span> <span class="o">=</span> <span class="n">bw</span><span class="o">+</span><span class="p">(</span><span class="n">size</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">bw</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">game</span><span class="o">.</span><span class="n">tilelistImageAreaFactor</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="n">bw</span><span class="o">*</span><span class="n">count</span><span class="o">+</span><span class="n">size</span><span class="o">*</span><span class="n">count</span>
+			<span class="n">tile</span><span class="o">.</span><span class="n">drawInList</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">game</span><span class="p">,</span><span class="n">canvas</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">blockSize</span><span class="p">)</span>
+			<span class="n">count</span><span class="o">+=</span><span class="mi">1</span></div>
+<div class="viewcode-block" id="TileBucket.despawnTiles"><a class="viewcode-back" href="../game.html#game.TileBucket.despawnTiles">[docs]</a>	<span class="k">def</span> <span class="nf">despawnTiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Despawns all tiles</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">for</span> <span class="n">tileKey</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiles</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">tileKey</span><span class="p">]</span><span class="o">.</span><span class="n">despawnTile</span><span class="p">()</span></div>
+<div class="viewcode-block" id="TileBucket.export"><a class="viewcode-back" href="../game.html#game.TileBucket.export">[docs]</a>	<span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Gets the state info for all of the tiles.</span>
+
+<span class="sd">		:returns: a dictionary of the state info for the tiles</span>
+<span class="sd">		:rtype: dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="c"># Export must include tile order and rotation for each tile</span>
+		<span class="n">tileInfo</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiles</span><span class="p">:</span>
+			<span class="c"># do not add tiles that are not spawned</span>
+			<span class="n">tile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+			<span class="n">tileInfo</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">row</span><span class="p">,</span><span class="n">tile</span><span class="o">.</span><span class="n">col</span><span class="p">,</span><span class="n">tile</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">tile</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="n">tile</span><span class="o">.</span><span class="n">spawned</span><span class="p">,</span><span class="n">tile</span><span class="o">.</span><span class="n">distinctGrids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">))</span>
+		<span class="k">return</span> <span class="n">tileInfo</span>
+</div></div>
+<div class="viewcode-block" id="Game"><a class="viewcode-back" href="../game.html#game.Game">[docs]</a><span class="k">class</span> <span class="nc">Game</span><span class="p">:</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Manager for graphics and board/tile state.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Game.__init__"><a class="viewcode-back" href="../game.html#game.Game.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">settings</span><span class="o">=</span><span class="p">{}):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Class constructor.</span>
+
+<span class="sd">		:param settings: optional parameter containing settings for how the game should be displayed; defaults to {}</span>
+<span class="sd">		:type settings: dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">Tk</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">initializeSettings</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+		<span class="c"># root.state(&#39;zoomed&#39;) # Maximized window</span>
+		<span class="c"># root.attributes(&#39;-fullscreen&#39;, True) # Fullscreen window</span>
+
+		<span class="n">topFrame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">);</span>			<span class="n">topFrame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">)</span>
+		<span class="n">middleFrame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">);</span>			<span class="n">middleFrame</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+		<span class="n">solnFrame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">);</span>			<span class="n">solnFrame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">bottomFrame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">);</span>	<span class="bp">self</span><span class="o">.</span><span class="n">bottomFrame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">)</span>
+
+		<span class="c"># Top frame</span>
+
+		<span class="n">label</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">topFrame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Geometric Puzzle&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;Helvetica&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="s">&#39;bold&#39;</span><span class="p">))</span>
+		<span class="n">label</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+
+		<span class="c"># Middle frame</span>
+
+		<span class="c"># canvas containing board and pile</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvas1</span> <span class="o">=</span> <span class="n">Canvas</span><span class="p">(</span><span class="n">middleFrame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">canvasWidth</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">canvasHeight</span><span class="p">,</span> <span class="n">bd</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">highlightthickness</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvas1</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">)</span>
+
+		<span class="c"># canvas containing tile list</span>
+		<span class="n">scrollbar</span> <span class="o">=</span> <span class="n">Scrollbar</span><span class="p">(</span><span class="n">middleFrame</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvas2</span> <span class="o">=</span> <span class="n">Canvas</span><span class="p">(</span><span class="n">middleFrame</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tilelistWidth</span><span class="p">,</span> <span class="n">bd</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">highlightthickness</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvas2</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">Y</span><span class="p">)</span>
+		<span class="n">scrollbar</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">Y</span><span class="p">)</span>
+		<span class="n">scrollbar</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">canvas2</span><span class="o">.</span><span class="n">yview</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvas2</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">yscrollcommand</span><span class="o">=</span><span class="n">scrollbar</span><span class="o">.</span><span class="n">set</span><span class="p">)</span>
+
+		<span class="c"># canvas containing solutions</span>
+		<span class="n">scrollbar2</span> <span class="o">=</span> <span class="n">Scrollbar</span><span class="p">(</span><span class="n">solnFrame</span><span class="p">,</span> <span class="n">orient</span> <span class="o">=</span> <span class="n">HORIZONTAL</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvas3</span> <span class="o">=</span> <span class="n">Canvas</span><span class="p">(</span><span class="n">solnFrame</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solnListHeight</span><span class="p">,</span> <span class="n">bd</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">highlightthickness</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvas3</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">)</span>
+		<span class="n">scrollbar2</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">)</span>
+		<span class="n">scrollbar2</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">canvas3</span><span class="o">.</span><span class="n">xview</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvas3</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">xscrollcommand</span><span class="o">=</span><span class="n">scrollbar2</span><span class="o">.</span><span class="n">set</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Game.initializeSettings"><a class="viewcode-back" href="../game.html#game.Game.initializeSettings">[docs]</a>	<span class="k">def</span> <span class="nf">initializeSettings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">settings</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Initializes graphics constants and variables. If the settings parameter is empty, then default values are used.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">settings</span> <span class="o">=</span> <span class="n">settings</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">boardWidth</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;BOARD_WIDTH&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;BOARD_WIDTH&#39;</span> <span class="ow">in</span> <span class="n">settings</span> <span class="k">else</span> <span class="mi">300</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">separatorWidth</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;SEPARATOR_WIDTH&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;SEPARATOR_WIDTH&#39;</span> <span class="ow">in</span> <span class="n">settings</span> <span class="k">else</span> <span class="mi">25</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">pileWidth</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;PILE_WIDTH&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;PILE_WIDTH&#39;</span> <span class="ow">in</span> <span class="n">settings</span> <span class="k">else</span> <span class="mi">400</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tilelistWidth</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;TILELIST_WIDTH&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;TILELIST_WIDTH&#39;</span> <span class="ow">in</span> <span class="n">settings</span> <span class="k">else</span> <span class="mi">100</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvasHeight</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;CANVAS_HEIGHT&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;CANVAS_HEIGHT&#39;</span> <span class="ow">in</span> <span class="n">settings</span> <span class="k">else</span> <span class="mi">300</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvasWidth</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;CANVAS_WIDTH&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;CANVAS_WIDTH&#39;</span> <span class="ow">in</span> <span class="n">settings</span> <span class="k">else</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">boardWidth</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">separatorWidth</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pileWidth</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">borderWidth</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;BORDER_WIDTH&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;BORDER_WIDTH&#39;</span> <span class="ow">in</span> <span class="n">settings</span> <span class="k">else</span> <span class="mi">40</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">gridlineWidth</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;GRIDLINE_WIDTH&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;GRIDLINE_WIDTH&#39;</span> <span class="ow">in</span> <span class="n">settings</span> <span class="k">else</span> <span class="mi">6</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tilelistBorderWidth</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;TILELIST_BORDER_WIDTH&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;TILELIST_BORDER_WIDTH&#39;</span> <span class="ow">in</span> <span class="n">settings</span> <span class="k">else</span> <span class="mi">6</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tilelistImageAreaFactor</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;TILELIST_IMAGE_AREA_FACTOR&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;TILELIST_IMAGE_AREA_FACTOR&#39;</span> <span class="ow">in</span> <span class="n">settings</span> <span class="k">else</span> <span class="mf">0.8</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">solnListHeight</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;SOLN_LIST_HEIGHT&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;SOLN_LIST_HEIGHT&#39;</span> <span class="ow">in</span> <span class="n">settings</span> <span class="k">else</span> <span class="mi">100</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">maxSolnsDrawn</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;MAX_SOLNS_DRAWN&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;MAX_SOLNS_DRAWN&#39;</span> <span class="ow">in</span> <span class="n">settings</span> <span class="k">else</span> <span class="mi">36</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">bgColor</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;BG_COLOR&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;BG_COLOR&#39;</span> <span class="ow">in</span> <span class="n">settings</span> <span class="k">else</span> <span class="s">&#39;#007fff&#39;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">puzzleDirectory</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;PUZZLE_DIRECTORY&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;PUZZLE_DIRECTORY&#39;</span> <span class="ow">in</span> <span class="n">settings</span> <span class="k">else</span> <span class="s">&#39;/puzzles&#39;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">boardColors</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39; &#39;</span><span class="p">:</span><span class="s">&#39;#000000&#39;</span><span class="p">}</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tileColors</span> <span class="o">=</span> <span class="p">{}</span>
+
+		<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">inspect</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+		<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getfile</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">())))</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">puzzleDirectory</span><span class="p">):</span>
+			<span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.txt&#39;</span><span class="p">):</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;Puzzle &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;: &#39;</span> <span class="o">+</span> <span class="n">f</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;.txt&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">puzzleDirectory</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">f</span><span class="p">))</span>
+				<span class="n">count</span><span class="o">+=</span><span class="mi">1</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">findJustOne</span> <span class="o">=</span> <span class="n">IntVar</span><span class="p">(</span><span class="n">master</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canFlipTiles</span> <span class="o">=</span> <span class="n">IntVar</span><span class="p">(</span><span class="n">master</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">animate</span> <span class="o">=</span> <span class="n">IntVar</span><span class="p">(</span><span class="n">master</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">multithread</span> <span class="o">=</span> <span class="n">IntVar</span><span class="p">(</span><span class="n">master</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">selectedFile</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">(</span><span class="n">master</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">readyToDrawSolutions</span> <span class="o">=</span> <span class="bp">False</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">loadingOutsideMainThread</span> <span class="o">=</span> <span class="bp">False</span></div>
+<div class="viewcode-block" id="Game.load"><a class="viewcode-back" href="../game.html#game.Game.load">[docs]</a>	<span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fileKey</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Loads the currently selected puzzle. In the event that a bad board config file is given, the user is notified via the console.</span>
+
+<span class="sd">		:param filekey: refers to the file containing the puzzle to be loaded</span>
+<span class="sd">		:type filekey: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">validBoard</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parseInputFile</span><span class="p">(</span><span class="n">fileKey</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">drawBoardAndTiles</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">drawTileList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">canvas2</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">solutions</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvas3</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s">&#39;all&#39;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvas3</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">scrollregion</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">validBoard</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">canvas3</span><span class="o">.</span><span class="n">create_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">winfo_width</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">solnListHeight</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">text</span><span class="o">=</span><span class="s">&#39;Invalid board! Not enough tiles.&#39;</span><span class="p">,</span><span class="n">font</span><span class="o">=</span><span class="n">tkFont</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="s">&#39;bold&#39;</span><span class="p">))</span></div>
+<div class="viewcode-block" id="Game.update"><a class="viewcode-back" href="../game.html#game.Game.update">[docs]</a>	<span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tileInfo</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Redraws the board, tiles, and tile list.</span>
+
+<span class="sd">		:param tileInfo: if provided, used to determine tile states; otherwise, self.tileBucket is used</span>
+<span class="sd">		:type tileInfo: dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loadingOutsideMainThread</span><span class="p">:</span>
+			<span class="k">return</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvas1</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s">&quot;all&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvas2</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s">&quot;all&quot;</span><span class="p">)</span>
+		<span class="n">tileBucket</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="k">if</span> <span class="n">tileInfo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="n">tileBucket</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tileBucket</span>
+		<span class="k">if</span> <span class="n">tileInfo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="n">tiles</span> <span class="o">=</span> <span class="p">{}</span>
+			<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">tileInfo</span><span class="p">:</span>
+				<span class="n">tile</span> <span class="o">=</span> <span class="n">Tile</span><span class="p">()</span>
+				<span class="n">tile</span><span class="o">.</span><span class="n">row</span><span class="p">,</span><span class="n">tile</span><span class="o">.</span><span class="n">col</span><span class="p">,</span><span class="n">tile</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">tile</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="n">tile</span><span class="o">.</span><span class="n">spawned</span><span class="p">,</span><span class="n">rotationIndex</span> <span class="o">=</span> <span class="n">tileInfo</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+				<span class="n">tile</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">distinctGrids</span><span class="p">[</span><span class="n">rotationIndex</span><span class="p">]</span>
+				<span class="n">tile</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
+				<span class="n">tiles</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">tile</span>
+			<span class="n">tileBucket</span> <span class="o">=</span> <span class="n">TileBucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tiles</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">drawBoardAndTiles</span><span class="p">(</span><span class="n">tileBucket</span><span class="p">)</span>
+		<span class="n">tileBucket</span><span class="o">.</span><span class="n">drawTileList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">canvas2</span><span class="p">)</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">readyToDrawSolutions</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">readyToDrawSolutions</span> <span class="o">=</span> <span class="bp">False</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">drawSolutions</span><span class="p">()</span></div>
+<div class="viewcode-block" id="Game.drawBoardAndTiles"><a class="viewcode-back" href="../game.html#game.Game.drawBoardAndTiles">[docs]</a>	<span class="k">def</span> <span class="nf">drawBoardAndTiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tileBucket</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Draws both the board and the tiles have been placed on the board.</span>
+
+<span class="sd">		:param tileBucket: used to determine if and where tiles should be drawn on the board</span>
+<span class="sd">		:type tileBucket: TileBucket</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="c"># Draw border</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvas1</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">canvasWidth</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">canvasHeight</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bgColor</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvas1</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">boardWidth</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">boardWidth</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">separatorWidth</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">canvasHeight</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="s">&#39;#000000&#39;</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="n">tileBucket</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="n">tileBucket</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tileBucket</span>
+			
+		<span class="bp">self</span><span class="o">.</span><span class="n">drawBoard</span><span class="p">()</span>
+
+		<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">tileBucket</span><span class="o">.</span><span class="n">tiles</span><span class="p">:</span>
+			<span class="n">tile</span> <span class="o">=</span> <span class="n">tileBucket</span><span class="o">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+			<span class="k">if</span> <span class="n">tile</span><span class="o">.</span><span class="n">spawned</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">tile</span><span class="o">.</span><span class="n">col</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">tile</span><span class="o">.</span><span class="n">row</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">drawTileOnBoard</span><span class="p">(</span><span class="n">tile</span><span class="p">)</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">drawTileOnCanvas</span><span class="p">(</span><span class="n">tile</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Game.drawTileOnCanvas"><a class="viewcode-back" href="../game.html#game.Game.drawTileOnCanvas">[docs]</a>	<span class="k">def</span> <span class="nf">drawTileOnCanvas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tile</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Draws a tile that has been spawned, but not placed on the board, based on the tile.x and tile.y.</span>
+
+<span class="sd">		:param tile: the tile to be drawn</span>
+<span class="sd">		:type tile: Tile</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridlineWidth</span>
+		<span class="n">bw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tilelistBorderWidth</span>
+		<span class="n">grid</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">grid</span>
+		<span class="n">canvas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas1</span>
+		<span class="n">board</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span>
+
+		<span class="k">global</span> <span class="n">boardColors</span>
+		<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+			<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+				<span class="n">c</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span>
+				<span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+					<span class="n">x1</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">x</span><span class="o">+</span><span class="n">col</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">y1</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">y</span><span class="o">+</span><span class="n">row</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">x2</span> <span class="o">=</span> <span class="n">x1</span><span class="o">+</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">y2</span> <span class="o">=</span> <span class="n">y1</span><span class="o">+</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="n">w</span><span class="p">,</span><span class="n">outline</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+			<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+				<span class="n">c</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span>
+				<span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+					<span class="n">x1</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">x</span><span class="o">+</span><span class="n">col</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">y1</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">y</span><span class="o">+</span><span class="n">row</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">x2</span> <span class="o">=</span> <span class="n">x1</span><span class="o">+</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">y2</span> <span class="o">=</span> <span class="n">y1</span><span class="o">+</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tileColors</span><span class="p">[</span><span class="n">tile</span><span class="o">.</span><span class="n">key</span><span class="p">],</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+					<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">x1</span><span class="o">+</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span><span class="o">*</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="n">y1</span><span class="o">+</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span><span class="o">*</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="n">x2</span><span class="o">-</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span><span class="o">*</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="n">y2</span><span class="o">-</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span><span class="o">*</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">boardColors</span><span class="p">[</span><span class="n">c</span><span class="p">],</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Game.drawTileOnBoard"><a class="viewcode-back" href="../game.html#game.Game.drawTileOnBoard">[docs]</a>	<span class="k">def</span> <span class="nf">drawTileOnBoard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tile</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Draws a tile that has been both spawned and placed on the board based on its tile.row and tile.col.</span>
+
+<span class="sd">		:param tile: the tile to be drawn</span>
+<span class="sd">		:type tile: Tile</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">board</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span>
+		<span class="n">canvas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas1</span>
+		<span class="n">grid</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">grid</span>
+		<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+			<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+				<span class="n">c</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span>
+				<span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+					<span class="n">x1</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">xMargin</span><span class="o">+</span><span class="n">tile</span><span class="o">.</span><span class="n">col</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span><span class="o">+</span><span class="n">col</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">y1</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">yMargin</span><span class="o">+</span><span class="n">tile</span><span class="o">.</span><span class="n">row</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span><span class="o">+</span><span class="n">row</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">x2</span> <span class="o">=</span> <span class="n">x1</span><span class="o">+</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">y2</span> <span class="o">=</span> <span class="n">y1</span><span class="o">+</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gridlineWidth</span><span class="p">,</span><span class="n">outline</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+			<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+				<span class="n">c</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span>
+				<span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+					<span class="n">x1</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">xMargin</span><span class="o">+</span><span class="n">tile</span><span class="o">.</span><span class="n">col</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span><span class="o">+</span><span class="n">col</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">y1</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">yMargin</span><span class="o">+</span><span class="n">tile</span><span class="o">.</span><span class="n">row</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span><span class="o">+</span><span class="n">row</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">x2</span> <span class="o">=</span> <span class="n">x1</span><span class="o">+</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">y2</span> <span class="o">=</span> <span class="n">y1</span><span class="o">+</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+					<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tileColors</span><span class="p">[</span><span class="n">tile</span><span class="o">.</span><span class="n">key</span><span class="p">],</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+					<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">x1</span><span class="o">+</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span><span class="o">*</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="n">y1</span><span class="o">+</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span><span class="o">*</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="n">x2</span><span class="o">-</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span><span class="o">*</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="n">y2</span><span class="o">-</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span><span class="o">*</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">boardColors</span><span class="p">[</span><span class="n">c</span><span class="p">],</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Game.drawSolutions"><a class="viewcode-back" href="../game.html#game.Game.drawSolutions">[docs]</a>	<span class="k">def</span> <span class="nf">drawSolutions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Draws solutions that have been found and added to the solutions list.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">canvas3</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s">&quot;all&quot;</span><span class="p">)</span>
+
+		<span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solnListHeight</span>
+		<span class="n">bw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tilelistBorderWidth</span>
+		<span class="n">canvas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas3</span>
+		<span class="n">board</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span>
+		<span class="n">solns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solutions</span>
+
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">solns</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">canvas</span><span class="o">.</span><span class="n">create_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">winfo_width</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">size</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">text</span><span class="o">=</span><span class="s">&#39;No solutions!&#39;</span><span class="p">,</span><span class="n">font</span><span class="o">=</span><span class="n">tkFont</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="s">&#39;bold&#39;</span><span class="p">))</span>
+
+		<span class="n">canvas</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">scrollregion</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">size</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">solns</span><span class="p">)</span><span class="o">+</span><span class="n">bw</span><span class="o">-</span><span class="n">bw</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">solns</span><span class="p">),</span><span class="n">size</span><span class="p">))</span>
+
+		<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="k">for</span> <span class="n">tileInfo</span> <span class="ow">in</span> <span class="n">solns</span><span class="p">:</span>
+			<span class="n">bgColor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bgColor</span>
+			<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">count</span><span class="o">*</span><span class="n">size</span><span class="o">+</span><span class="n">bw</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="n">bw</span><span class="o">*</span><span class="n">count</span><span class="p">,</span><span class="n">bw</span><span class="o">/</span><span class="mi">2</span><span class="p">,(</span><span class="n">count</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">size</span><span class="o">-</span><span class="n">bw</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="n">bw</span><span class="o">*</span><span class="n">count</span><span class="p">,</span><span class="n">size</span><span class="o">-</span><span class="n">bw</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">bgColor</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="n">bw</span><span class="p">)</span>
+			<span class="n">x</span> <span class="o">=</span> <span class="n">bw</span><span class="o">+</span><span class="p">(</span><span class="n">size</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">bw</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">tilelistImageAreaFactor</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="n">bw</span><span class="o">*</span><span class="n">count</span><span class="o">+</span><span class="n">size</span><span class="o">*</span><span class="n">count</span>
+			<span class="n">y</span> <span class="o">=</span> <span class="n">bw</span><span class="o">+</span><span class="p">(</span><span class="n">size</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">bw</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">tilelistImageAreaFactor</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+
+			<span class="c"># draw board</span>
+			<span class="n">blockSize</span> <span class="o">=</span> <span class="p">(</span><span class="n">size</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">bw</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tilelistImageAreaFactor</span><span class="p">)</span><span class="o">/</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">grid</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+			<span class="c"># center grids</span>
+			<span class="n">x</span> <span class="o">+=</span> <span class="p">((</span><span class="n">size</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">bw</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tilelistImageAreaFactor</span><span class="p">)</span> <span class="o">-</span> <span class="n">blockSize</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span><span class="o">/</span><span class="mi">2</span>
+			<span class="n">y</span> <span class="o">+=</span> <span class="p">((</span><span class="n">size</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">bw</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tilelistImageAreaFactor</span><span class="p">)</span> <span class="o">-</span> <span class="n">blockSize</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">grid</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span>
+			<span class="c"># board background</span>
+			<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="o">+</span><span class="n">blockSize</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">y</span><span class="o">+</span><span class="n">blockSize</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">grid</span><span class="p">),</span><span class="n">fill</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">outline</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">)</span>
+			
+			<span class="c"># draw tiles</span>
+			<span class="n">tiles</span> <span class="o">=</span> <span class="p">{}</span>
+			<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">tileInfo</span><span class="p">:</span>
+				<span class="n">tile</span> <span class="o">=</span> <span class="n">Tile</span><span class="p">()</span>
+				<span class="n">tile</span><span class="o">.</span><span class="n">row</span><span class="p">,</span><span class="n">tile</span><span class="o">.</span><span class="n">col</span><span class="p">,</span><span class="n">tile</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">tile</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="n">tile</span><span class="o">.</span><span class="n">spawned</span><span class="p">,</span><span class="n">rotationIndex</span> <span class="o">=</span> <span class="n">tileInfo</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+				<span class="n">tile</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">distinctGrids</span><span class="p">[</span><span class="n">rotationIndex</span><span class="p">]</span>
+				<span class="n">tiles</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">tile</span>
+			<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">tiles</span><span class="p">:</span>
+				<span class="n">tile</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+				<span class="k">if</span> <span class="n">tile</span><span class="o">.</span><span class="n">row</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">or</span> <span class="n">tile</span><span class="o">.</span><span class="n">col</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+					<span class="k">continue</span>
+				<span class="n">grid</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">grid</span>
+				<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+					<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+						<span class="n">c</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span>
+						<span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+							<span class="n">x1</span> <span class="o">=</span> <span class="n">x</span><span class="o">+</span><span class="n">tile</span><span class="o">.</span><span class="n">col</span><span class="o">*</span><span class="n">blockSize</span><span class="o">+</span><span class="n">col</span><span class="o">*</span><span class="n">blockSize</span>
+							<span class="n">y1</span> <span class="o">=</span> <span class="n">y</span><span class="o">+</span><span class="n">tile</span><span class="o">.</span><span class="n">row</span><span class="o">*</span><span class="n">blockSize</span><span class="o">+</span><span class="n">row</span><span class="o">*</span><span class="n">blockSize</span>
+							<span class="n">x2</span> <span class="o">=</span> <span class="n">x1</span><span class="o">+</span><span class="n">blockSize</span>
+							<span class="n">y2</span> <span class="o">=</span> <span class="n">y1</span><span class="o">+</span><span class="n">blockSize</span>
+							<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">outline</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">)</span>
+				<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+					<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+						<span class="n">c</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span>
+						<span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+							<span class="n">x1</span> <span class="o">=</span> <span class="n">x</span><span class="o">+</span><span class="n">tile</span><span class="o">.</span><span class="n">col</span><span class="o">*</span><span class="n">blockSize</span><span class="o">+</span><span class="n">col</span><span class="o">*</span><span class="n">blockSize</span>
+							<span class="n">y1</span> <span class="o">=</span> <span class="n">y</span><span class="o">+</span><span class="n">tile</span><span class="o">.</span><span class="n">row</span><span class="o">*</span><span class="n">blockSize</span><span class="o">+</span><span class="n">row</span><span class="o">*</span><span class="n">blockSize</span>
+							<span class="n">x2</span> <span class="o">=</span> <span class="n">x1</span><span class="o">+</span><span class="n">blockSize</span>
+							<span class="n">y2</span> <span class="o">=</span> <span class="n">y1</span><span class="o">+</span><span class="n">blockSize</span>
+							<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tileColors</span><span class="p">[</span><span class="n">key</span><span class="p">],</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+			<span class="n">count</span><span class="o">+=</span><span class="mi">1</span></div>
+<div class="viewcode-block" id="Game.drawBoard"><a class="viewcode-back" href="../game.html#game.Game.drawBoard">[docs]</a>	<span class="k">def</span> <span class="nf">drawBoard</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Draws the board.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">canvas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas1</span>
+		<span class="n">board</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span>
+		<span class="n">grid</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">grid</span>
+		<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+			<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+				<span class="n">c</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span>
+				<span class="n">x1</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">xMargin</span><span class="o">+</span><span class="n">col</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+				<span class="n">y1</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">yMargin</span><span class="o">+</span><span class="n">row</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+				<span class="n">x2</span> <span class="o">=</span> <span class="n">x1</span><span class="o">+</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+				<span class="n">y2</span> <span class="o">=</span> <span class="n">y1</span><span class="o">+</span><span class="n">board</span><span class="o">.</span><span class="n">blockSize</span>
+				<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">boardColors</span><span class="p">[</span><span class="n">c</span><span class="p">],</span><span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gridlineWidth</span><span class="p">,</span><span class="n">outline</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Game.clearBoard"><a class="viewcode-back" href="../game.html#game.Game.clearBoard">[docs]</a>	<span class="k">def</span> <span class="nf">clearBoard</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Resets board and despawns all tiles.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">despawnTiles</span><span class="p">()</span></div>
+<div class="viewcode-block" id="Game.parseInputFile"><a class="viewcode-back" href="../game.html#game.Game.parseInputFile">[docs]</a>	<span class="k">def</span> <span class="nf">parseInputFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filekey</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Interprets the board configurations in the text file referred to by the fileKey. Each body of text is taken to be a tile where the largest tile is the board.</span>
+
+<span class="sd">		:param filekey: refers to the file containing the puzzle to be read and loaded</span>
+<span class="sd">		:type filekey: str</span>
+<span class="sd">		:returns: True if the board config file was valid; False otherwise</span>
+<span class="sd">		:rtype: bool:</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">boardColors</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39; &#39;</span><span class="p">:</span><span class="s">&quot;#000000&quot;</span><span class="p">}</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tileColors</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="n">tiles</span> <span class="o">=</span> <span class="p">{}</span>
+		
+		<span class="n">filepath</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">)[</span><span class="n">filekey</span><span class="p">]</span>
+		<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+
+		<span class="n">inputGrid</span> <span class="o">=</span> <span class="p">[[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">]</span>
+		
+		<span class="n">largestTileId</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+		<span class="n">largestTileSize</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+		<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputGrid</span><span class="p">)):</span>
+			<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputGrid</span><span class="p">[</span><span class="n">i</span><span class="p">])):</span>
+				<span class="n">c</span> <span class="o">=</span> <span class="n">inputGrid</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+				<span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+					<span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boardColors</span><span class="p">:</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">boardColors</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">randomColor</span><span class="p">()</span>
+					<span class="n">tiles</span><span class="p">[</span><span class="n">count</span><span class="p">],</span><span class="n">size</span> <span class="o">=</span> <span class="n">buildTile</span><span class="p">(</span><span class="n">inputGrid</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+					<span class="k">if</span> <span class="p">(</span><span class="n">largestTileSize</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">or</span> <span class="n">size</span> <span class="o">&gt;</span> <span class="n">largestTileSize</span><span class="p">):</span>
+						<span class="n">largestTileId</span> <span class="o">=</span> <span class="n">count</span>
+						<span class="n">largestTileSize</span> <span class="o">=</span> <span class="n">size</span>
+					<span class="n">count</span><span class="o">+=</span><span class="mi">1</span>
+
+		<span class="n">boardGrid</span> <span class="o">=</span> <span class="n">gridFromTile</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="n">largestTileId</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">board</span> <span class="o">=</span> <span class="n">Board</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">boardGrid</span><span class="p">)</span>
+		<span class="k">del</span> <span class="n">tiles</span><span class="p">[</span><span class="n">largestTileId</span><span class="p">]</span>
+
+		<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">tiles</span><span class="p">:</span>
+			<span class="n">tile</span> <span class="o">=</span> <span class="n">Tile</span><span class="p">()</span>
+			<span class="n">tile</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">gridFromTile</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+			<span class="n">tile</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">sum</span><span class="p">([</span><span class="mi">1</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="k">if</span> <span class="n">ch</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">))])</span>
+			<span class="n">tile</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">tileColors</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">randomColor</span><span class="p">()</span>
+			
+			<span class="n">grid</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">grid</span>
+			<span class="n">distinctGrids</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+				<span class="n">temp</span> <span class="o">=</span> <span class="p">[[</span><span class="n">grid</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">]))]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">))]</span>
+				<span class="k">if</span> <span class="n">temp</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">distinctGrids</span><span class="p">:</span>
+					<span class="n">distinctGrids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+				<span class="n">grid</span> <span class="o">=</span> <span class="n">rotateClockwise</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">canFlipTiles</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+				<span class="n">grid</span> <span class="o">=</span> <span class="n">flipHorizontally</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+				<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+					<span class="n">temp</span> <span class="o">=</span> <span class="p">[[</span><span class="n">grid</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">]))]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">))]</span>
+					<span class="k">if</span> <span class="n">temp</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">distinctGrids</span><span class="p">:</span>
+						<span class="n">distinctGrids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+					<span class="n">grid</span> <span class="o">=</span> <span class="n">rotateClockwise</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+				<span class="n">grid</span> <span class="o">=</span> <span class="n">flipHorizontally</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+			<span class="n">tile</span><span class="o">.</span><span class="n">distinctGrids</span> <span class="o">=</span> <span class="n">distinctGrids</span>
+			<span class="n">tiles</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">tile</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">tileBucket</span> <span class="o">=</span> <span class="n">TileBucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tiles</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">tileGroups</span> <span class="o">=</span> <span class="n">groupTiles</span><span class="p">(</span><span class="n">tiles</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">tiles</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">tiles</span><span class="p">])</span>
+
+		<span class="k">for</span> <span class="n">tileGroup</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">tileGroups</span><span class="p">:</span>
+			<span class="n">mainTile</span> <span class="o">=</span> <span class="bp">None</span>
+			<span class="k">for</span> <span class="n">tileKey</span> <span class="ow">in</span> <span class="n">tileGroup</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">mainTile</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+					<span class="n">mainTile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">tileKey</span><span class="p">]</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">tileKey</span><span class="p">]</span><span class="o">.</span><span class="n">distinctGrids</span> <span class="o">=</span> <span class="n">mainTile</span><span class="o">.</span><span class="n">distinctGrids</span>
+
+		<span class="c"># validate board</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">False</span>
+		<span class="k">return</span> <span class="bp">True</span>
+</div></div>
+<div class="viewcode-block" id="printGrid"><a class="viewcode-back" href="../game.html#game.printGrid">[docs]</a><span class="k">def</span> <span class="nf">printGrid</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Prints grid.</span>
+
+<span class="sd">	:param grid: grid to be printed</span>
+<span class="sd">	:type grid: 2-D array</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">:</span>
+		<span class="k">print</span> <span class="n">l</span>
+	<span class="k">print</span></div>
+<div class="viewcode-block" id="printTile"><a class="viewcode-back" href="../game.html#game.printTile">[docs]</a><span class="k">def</span> <span class="nf">printTile</span><span class="p">(</span><span class="n">tile</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Prints tile.</span>
+
+<span class="sd">	:param tile: tile to be printed</span>
+<span class="sd">	:type tile: Tile</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">printGrid</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span></div>
+<div class="viewcode-block" id="gridFromTile"><a class="viewcode-back" href="../game.html#game.gridFromTile">[docs]</a><span class="k">def</span> <span class="nf">gridFromTile</span><span class="p">(</span><span class="n">tile</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Extracts grid from given tile builder.</span>
+
+<span class="sd">	:param tile: tile to extract grid from</span>
+<span class="sd">	:type tile: TileBuilder</span>
+<span class="sd">	:returns: grid represented by given tile</span>
+<span class="sd">	:rtype: 2-D array</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="c"># Tile points intitially to furthest left item in top</span>
+	<span class="c"># row based on parsing strategy used to read file.</span>
+	<span class="n">min_i</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">max_i</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">min_j</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">max_j</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">visited</span> <span class="o">=</span> <span class="p">{</span><span class="n">tile</span><span class="p">:</span><span class="bp">None</span><span class="p">}</span>
+	<span class="n">tileStack</span> <span class="o">=</span> <span class="p">[(</span><span class="n">tile</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)]</span>
+
+	<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">tileStack</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+		<span class="n">t</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="o">=</span> <span class="n">tileStack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+		<span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
+
+		<span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">north</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">north</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+			<span class="n">tileStack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="o">.</span><span class="n">north</span><span class="p">,</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
+			<span class="n">min_i</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_i</span><span class="p">,</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">south</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">south</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+			<span class="n">tileStack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="o">.</span><span class="n">south</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
+			<span class="n">max_i</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_i</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">west</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">west</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+			<span class="n">tileStack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="o">.</span><span class="n">west</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+			<span class="n">min_j</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_j</span><span class="p">,</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">east</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">east</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+			<span class="n">tileStack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="o">.</span><span class="n">east</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+			<span class="n">max_j</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_j</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+		<span class="n">visited</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+
+	<span class="n">grid</span> <span class="o">=</span> <span class="p">[[</span><span class="s">&#39; &#39;</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_j</span><span class="o">-</span><span class="n">min_j</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_i</span><span class="o">-</span><span class="n">min_i</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+	<span class="k">for</span> <span class="n">v</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
+		<span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">min_i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="n">min_j</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+	<span class="k">return</span> <span class="n">grid</span></div>
+<div class="viewcode-block" id="buildTile"><a class="viewcode-back" href="../game.html#game.buildTile">[docs]</a><span class="k">def</span> <span class="nf">buildTile</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Creates a tile builder describing the shape of the tile. Starts at the i-th row and j-th col and consumes every tile square within 1 space.</span>
+
+<span class="sd">	:param grid: the array of the file being loaded</span>
+<span class="sd">	:type grid: 2-D array</span>
+<span class="sd">	:param i: row to start building from</span>
+<span class="sd">	:type i: int</span>
+<span class="sd">	:param j: col to start building from</span>
+<span class="sd">	:type j: int</span>
+<span class="sd">	:returns: tile builder and tile size</span>
+<span class="sd">	:rtype: TileBuilder and int</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">tile</span> <span class="o">=</span> <span class="n">TileBuilder</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
+	<span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39; &#39;</span>
+	<span class="n">size</span> <span class="o">+=</span> <span class="mi">1</span>
+
+	<span class="c"># North</span>
+	<span class="k">if</span> <span class="n">i</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">j</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="ow">and</span> <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+		<span class="n">tile</span><span class="o">.</span><span class="n">north</span><span class="p">,</span><span class="n">size</span> <span class="o">=</span> <span class="n">buildTile</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">size</span><span class="p">)</span>
+	<span class="c"># South</span>
+	<span class="k">if</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span> <span class="ow">and</span> <span class="n">j</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="ow">and</span> <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+		<span class="n">tile</span><span class="o">.</span><span class="n">south</span><span class="p">,</span><span class="n">size</span> <span class="o">=</span> <span class="n">buildTile</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">size</span><span class="p">)</span>
+	<span class="c"># West</span>
+	<span class="k">if</span> <span class="n">j</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+		<span class="n">tile</span><span class="o">.</span><span class="n">west</span><span class="p">,</span><span class="n">size</span> <span class="o">=</span> <span class="n">buildTile</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">)</span>
+	<span class="c"># East</span>
+	<span class="k">if</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="ow">and</span> <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+		<span class="n">tile</span><span class="o">.</span><span class="n">east</span><span class="p">,</span><span class="n">size</span> <span class="o">=</span> <span class="n">buildTile</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="n">tile</span><span class="p">,</span><span class="n">size</span></div>
+<div class="viewcode-block" id="randomColor"><a class="viewcode-back" href="../game.html#game.randomColor">[docs]</a><span class="k">def</span> <span class="nf">randomColor</span><span class="p">():</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Gives a random color.</span>
+
+<span class="sd">	:returns: a random color</span>
+<span class="sd">	:rtype: color formatted as &#39;#RRGGBB&#39;</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">hexDigits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;0&#39;</span><span class="p">,</span><span class="s">&#39;1&#39;</span><span class="p">,</span><span class="s">&#39;2&#39;</span><span class="p">,</span><span class="s">&#39;3&#39;</span><span class="p">,</span><span class="s">&#39;4&#39;</span><span class="p">,</span><span class="s">&#39;5&#39;</span><span class="p">,</span><span class="s">&#39;6&#39;</span><span class="p">,</span><span class="s">&#39;7&#39;</span><span class="p">,</span><span class="s">&#39;8&#39;</span><span class="p">,</span><span class="s">&#39;9&#39;</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="s">&#39;b&#39;</span><span class="p">,</span><span class="s">&#39;c&#39;</span><span class="p">,</span><span class="s">&#39;d&#39;</span><span class="p">,</span><span class="s">&#39;e&#39;</span><span class="p">,</span><span class="s">&#39;f&#39;</span><span class="p">]</span>
+	<span class="k">return</span> <span class="s">&#39;#&#39;</span><span class="o">+</span><span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">hexDigits</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)])</span></div>
+<div class="viewcode-block" id="toGrayScale"><a class="viewcode-back" href="../game.html#game.toGrayScale">[docs]</a><span class="k">def</span> <span class="nf">toGrayScale</span><span class="p">(</span><span class="n">rgb</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Converts rgb to grayscale. Red, green, and blue are weighted according to cognitive research into how human vision weights each of the basic colors.</span>
+
+<span class="sd">	:param rgb: color to be converted to grayscale, formatted as &#39;#RRGGBB&#39;</span>
+<span class="sd">	:type rgb: str</span>
+<span class="sd">	:returns: grayscale color</span>
+<span class="sd">	:rtype: color formatted as &#39;#RRGGBB&#39;</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">r</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rgb</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span><span class="mi">16</span><span class="p">)</span>
+	<span class="n">g</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rgb</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">],</span><span class="mi">16</span><span class="p">)</span>
+	<span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rgb</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">8</span><span class="p">],</span><span class="mi">16</span><span class="p">)</span>
+	<span class="n">gray</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.299</span><span class="o">*</span><span class="n">r</span><span class="o">+</span><span class="mf">0.587</span><span class="o">*</span><span class="n">g</span><span class="o">+</span><span class="mf">0.114</span><span class="o">*</span><span class="n">b</span><span class="p">)</span>
+	<span class="n">grayHex</span> <span class="o">=</span> <span class="s">&#39;{:02x}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gray</span><span class="p">)</span>
+	<span class="k">return</span> <span class="s">&#39;#&#39;</span><span class="o">+</span><span class="n">grayHex</span><span class="o">+</span><span class="n">grayHex</span><span class="o">+</span><span class="n">grayHex</span>
+</div>
+<div class="viewcode-block" id="groupTiles"><a class="viewcode-back" href="../game.html#game.groupTiles">[docs]</a><span class="k">def</span> <span class="nf">groupTiles</span><span class="p">(</span><span class="n">tiles</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Groups together non-distinct tiles.</span>
+
+<span class="sd">	:param tiles: the dict containing the all tiles on the board</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">groups</span> <span class="o">=</span> <span class="p">{}</span>
+	<span class="k">for</span> <span class="n">tileKey1</span> <span class="ow">in</span> <span class="n">tiles</span><span class="p">:</span>
+		<span class="n">group</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">tileKey2</span> <span class="ow">in</span> <span class="n">tiles</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">tiles</span><span class="p">[</span><span class="n">tileKey1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span> <span class="ow">in</span> <span class="n">tiles</span><span class="p">[</span><span class="n">tileKey2</span><span class="p">]</span><span class="o">.</span><span class="n">distinctGrids</span><span class="p">:</span>
+				<span class="n">group</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tileKey2</span><span class="p">)</span>
+		<span class="n">groups</span><span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">group</span><span class="p">)]</span> <span class="o">=</span> <span class="n">group</span>
+	<span class="k">return</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">groups</span><span class="p">[</span><span class="n">g</span><span class="p">])</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="copyGrid"><a class="viewcode-back" href="../game.html#game.copyGrid">[docs]</a><span class="k">def</span> <span class="nf">copyGrid</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Creates a copy of grid in a new array so that future modifications do not affect the old grid.</span>
+
+<span class="sd">	:param grid: the array that is being copied</span>
+<span class="sd">	:type grid: 2-D array</span>
+<span class="sd">	:returns: a deepcopy of grid</span>
+<span class="sd">	:rtype: 2-D array</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">return</span> <span class="p">[[</span><span class="n">cell</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">]</span></div>
+<div class="viewcode-block" id="flipHorizontally"><a class="viewcode-back" href="../game.html#game.flipHorizontally">[docs]</a><span class="k">def</span> <span class="nf">flipHorizontally</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Creates a copy of grid that is reflected across the y-axis.</span>
+
+<span class="sd">	:param grid: the array that is being flipped</span>
+<span class="sd">	:type grid: 2-D array</span>
+<span class="sd">	:returns: a horizontally flipped version of grid</span>
+<span class="sd">	:rtype: 2-D array</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">g</span> <span class="o">=</span> <span class="n">copyGrid</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+	<span class="n">g</span> <span class="o">=</span> <span class="p">[[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">row</span><span class="p">)]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">g</span><span class="p">]</span>
+	<span class="k">return</span> <span class="n">g</span></div>
+<div class="viewcode-block" id="flipVertically"><a class="viewcode-back" href="../game.html#game.flipVertically">[docs]</a><span class="k">def</span> <span class="nf">flipVertically</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Creates a copy of grid that is reflected across the x-axis.</span>
+
+<span class="sd">	:param grid: the array that is being flipped</span>
+<span class="sd">	:type grid: 2-D array</span>
+<span class="sd">	:returns: a vertically flipped version of grid</span>
+<span class="sd">	:rtype: 2-D array</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">g</span> <span class="o">=</span> <span class="n">transpose</span><span class="p">(</span><span class="n">flipHorizontally</span><span class="p">(</span><span class="n">transpose</span><span class="p">(</span><span class="n">copyGrid</span><span class="p">(</span><span class="n">grid</span><span class="p">))))</span>
+	<span class="k">return</span> <span class="n">g</span></div>
+<div class="viewcode-block" id="transpose"><a class="viewcode-back" href="../game.html#game.transpose">[docs]</a><span class="k">def</span> <span class="nf">transpose</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Creates a transposed copy of grid.</span>
+
+<span class="sd">	:param grid: the array that is being transposed</span>
+<span class="sd">	:type grid: 2-D array</span>
+<span class="sd">	:returns: a version of grid that has had the rows and columns swapped</span>
+<span class="sd">	:rtype: 2-D array</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">g</span> <span class="o">=</span> <span class="p">[[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">copyGrid</span><span class="p">(</span><span class="n">grid</span><span class="p">))]</span>
+	<span class="k">return</span> <span class="n">g</span></div>
+<div class="viewcode-block" id="rotateClockwise"><a class="viewcode-back" href="../game.html#game.rotateClockwise">[docs]</a><span class="k">def</span> <span class="nf">rotateClockwise</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span> <span class="c"># transpose and flip</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Creates a clockwise-rotated copy of grid. This is accomplished by noting the fact that a clockwise rotation can be accomplished with a transpose followed by a horizontal flip.</span>
+
+<span class="sd">	:param grid: the array that is being rotated</span>
+<span class="sd">	:type grid: 2-D array</span>
+<span class="sd">	:returns: a version of grid that has been rotated clockwise</span>
+<span class="sd">	:rtype: 2-D array</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">g</span> <span class="o">=</span> <span class="n">transpose</span><span class="p">(</span><span class="n">copyGrid</span><span class="p">(</span><span class="n">grid</span><span class="p">))</span>
+	<span class="n">g</span> <span class="o">=</span> <span class="n">flipHorizontally</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">g</span></div>
+<div class="viewcode-block" id="rotateNTimes"><a class="viewcode-back" href="../game.html#game.rotateNTimes">[docs]</a><span class="k">def</span> <span class="nf">rotateNTimes</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Creates a copy of grid that has been rotated clockwise N times.</span>
+
+<span class="sd">	:param grid: the array that is being transposed</span>
+<span class="sd">	:type grid: 2-D array</span>
+<span class="sd">	:param n: the number of times to rotate the grid</span>
+<span class="sd">	:type n: int</span>
+<span class="sd">	:returns: a version of grid that has had the rows and columns swapped</span>
+<span class="sd">	:rtype: 2-D array</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">g</span> <span class="o">=</span> <span class="n">copyGrid</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+		<span class="n">g</span> <span class="o">=</span> <span class="n">rotateClockwise</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">g</span></div>
+<div class="viewcode-block" id="equivalentGrids"><a class="viewcode-back" href="../game.html#game.equivalentGrids">[docs]</a><span class="k">def</span> <span class="nf">equivalentGrids</span><span class="p">(</span><span class="n">grid1</span><span class="p">,</span><span class="n">grid2</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Determines whether grid1 and grid2 share equality in all cells.</span>
+
+<span class="sd">	:param grid1: the array that is being transposed</span>
+<span class="sd">	:type grid1: 2-D array</span>
+<span class="sd">	:param grid2: the array that is being transposed</span>
+<span class="sd">	:type grid2: 2-D array</span>
+<span class="sd">	:returns: whether or not the given grids are equivalent</span>
+<span class="sd">	:rtype: bool</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid1</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid2</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid2</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+		<span class="k">return</span> <span class="bp">False</span>
+	<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid1</span><span class="p">)):</span>
+		<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid1</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+			<span class="k">if</span> <span class="n">grid1</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="o">!=</span> <span class="n">grid2</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]:</span>
+				<span class="k">return</span> <span class="bp">False</span>
+	<span class="k">return</span> <span class="bp">True</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Nathan Williams.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

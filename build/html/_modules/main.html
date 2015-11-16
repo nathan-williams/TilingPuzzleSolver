@@ -1,0 +1,547 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>main &mdash; Tiling Puzzle Solver 1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Tiling Puzzle Solver 1 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for main</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># from game import *</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">permutations</span><span class="p">,</span> <span class="n">islice</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">factorial</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<div class="viewcode-block" id="permute"><a class="viewcode-back" href="../main.html#main.permute">[docs]</a><span class="k">def</span> <span class="nf">permute</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">tileList</span><span class="p">,</span><span class="n">index</span><span class="p">,</span><span class="n">startrow</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">startcol</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Find solutions by permuting through orders of tielList.</span>
+
+<span class="sd">	:param game: the game containing board and tile information</span>
+<span class="sd">	:type game: Game</span>
+<span class="sd">	:param tileList: the list of tiles</span>
+<span class="sd">	:type tileList: list(Tile)</span>
+<span class="sd">	:param index: index of tileList to focus on where you should keep permuting from</span>
+<span class="sd">	:type index: int</span>
+<span class="sd">	:param startrow: the row to start scanning from; defaults to 0</span>
+<span class="sd">	:type startrow: int</span>
+<span class="sd">	:param startcol: the col to start scanning from; defaults to 0</span>
+<span class="sd">	:type startcol: int</span>
+<span class="sd">	:returns: True if tileList is a solution</span>
+<span class="sd">	:rtype: bool</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">board</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">board</span>
+	<span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">tileList</span><span class="p">):</span>
+		<span class="n">export</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">export</span><span class="p">()</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">duplicateSolution</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">export</span><span class="p">):</span>
+			<span class="n">game</span><span class="o">.</span><span class="n">solutions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">export</span><span class="p">())</span>
+			<span class="n">game</span><span class="o">.</span><span class="n">readyToDrawSolutions</span> <span class="o">=</span> <span class="bp">True</span>
+			<span class="k">return</span> <span class="bp">True</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">tileList</span><span class="p">)):</span>
+			<span class="n">tile</span> <span class="o">=</span> <span class="n">tileList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+			<span class="c"># if a solution may exist on this branch, continue permuting</span>
+			<span class="c"># otherwise, cut the branch</span>
+			<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">distinctGrids</span><span class="p">)):</span>
+				<span class="n">grid</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">distinctGrids</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+				<span class="n">row</span><span class="p">,</span><span class="n">col</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">nextEmptySpace</span><span class="p">(</span><span class="n">startrow</span><span class="p">,</span><span class="n">startcol</span><span class="p">)</span>
+
+				<span class="n">tile</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">grid</span>
+
+				<span class="n">colShift</span> <span class="o">=</span> <span class="mi">0</span>
+				<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+					<span class="k">if</span> <span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+						<span class="n">colShift</span> <span class="o">+=</span> <span class="mi">1</span>
+					<span class="k">else</span><span class="p">:</span>
+						<span class="k">break</span>
+
+				<span class="k">if</span> <span class="n">board</span><span class="o">.</span><span class="n">validMove</span><span class="p">(</span><span class="n">tile</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="o">-</span><span class="n">colShift</span><span class="p">):</span> <span class="c"># not a bad branch</span>
+					<span class="n">board</span><span class="o">.</span><span class="n">placeTile</span><span class="p">(</span><span class="n">tile</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="o">-</span><span class="n">colShift</span><span class="p">)</span>
+
+					<span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">animate</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+						<span class="n">game</span><span class="o">.</span><span class="n">tileInfo</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">export</span><span class="p">()</span>
+
+					<span class="n">tl</span> <span class="o">=</span> <span class="n">tileList</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">index</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="n">tile</span><span class="p">]</span><span class="o">+</span><span class="n">tileList</span><span class="p">[</span><span class="n">index</span><span class="p">:</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">tileList</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+					<span class="n">solutionFound</span> <span class="o">=</span> <span class="n">permute</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">tl</span><span class="p">,</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">)</span>
+					<span class="n">board</span><span class="o">.</span><span class="n">removeTile</span><span class="p">(</span><span class="n">tile</span><span class="p">)</span>
+
+					<span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">animate</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+						<span class="n">game</span><span class="o">.</span><span class="n">tileInfo</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">export</span><span class="p">()</span>
+	<span class="k">return</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="bruteForce"><a class="viewcode-back" href="../main.html#main.bruteForce">[docs]</a><span class="k">def</span> <span class="nf">bruteForce</span><span class="p">(</span><span class="n">game</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Find solution(s) with brute force method. All possible permutations of the tile list are tried out.</span>
+<span class="sd">	The idea was that the tiles could be placed in a well-defined and consistent fashion if the left-most space of the top row of the tile is aligned with the (row,col) of the tile.</span>
+<span class="sd">	By this method, only certain orderings of the tiles will result in a filled board.</span>
+<span class="sd">	Branches could be cut whenever the tile in its current position in the permutation.</span>
+
+<span class="sd">	:param game: the game containing board and tile information</span>
+<span class="sd">	:type game: Game</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+	<span class="n">game</span><span class="o">.</span><span class="n">clearBoard</span><span class="p">()</span>
+	<span class="n">game</span><span class="o">.</span><span class="n">solutions</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">tiles</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">tiles</span>
+	<span class="n">tileList</span> <span class="o">=</span> <span class="p">[</span><span class="n">tiles</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tiles</span><span class="p">]</span>
+	<span class="n">permute</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">tileList</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+	<span class="n">game</span><span class="o">.</span><span class="n">readyToDrawSolutions</span> <span class="o">=</span> <span class="bp">True</span>
+
+	<span class="n">stop_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+	<span class="k">print</span> <span class="s">&#39;Execution time:  &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">stop_time</span><span class="o">-</span><span class="n">start_time</span><span class="p">)</span>
+	<span class="k">print</span> <span class="s">&#39;Solutions found: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">solutions</span><span class="p">))</span>
+	<span class="k">print</span> <span class="s">&#39;&#39;</span>
+</div>
+<div class="viewcode-block" id="cleanConstraints"><a class="viewcode-back" href="../main.html#main.cleanConstraints">[docs]</a><span class="k">def</span> <span class="nf">cleanConstraints</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">boardConstraints</span><span class="p">,</span><span class="n">tileConstraints</span><span class="p">,</span><span class="n">move</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Updates the constraint lists so that moves that have become invalid after some move was executed are no longer present. These moves may have become invalid because the tile was played already or the tile consumed that space on the board.</span>
+
+<span class="sd">	:param game: the game containing board and tile information</span>
+<span class="sd">	:type game: Game</span>
+<span class="sd">	:param boardConstraints: contains a constraint for each unoccupied board space; key values are (row,col) pairs corresponding to unoccupied board spaces; values are lists of possible moves in the form of (tileGroup,row,col,gridIndex)</span>
+<span class="sd">	:type boardConstraints: dict&lt;tuple(int,int),list((tuple,int,int,int))&gt;</span>
+<span class="sd">	:param tileConstraints: contains a constraint for each tile; key values are tileGroups; values are lists of possible moves in the form (row,col,gridIndex)</span>
+<span class="sd">	:type tileConstraints: dict&lt;tuple(int,int,...),list((int,int,int))&gt;</span>
+<span class="sd">	:param move: describes the move to be executed of the form (tileGroup,row,col,gridIndex)</span>
+<span class="sd">	:type move: tuple(tuple,int,int,int)</span>
+<span class="sd">	:returns: True if there is a possible move to satisfy every board constraint; False if there is a board constraint that cannot be satisfied with any available tiles</span>
+<span class="sd">	:rtype: bool</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">placedTileGroup</span><span class="p">,</span><span class="n">gridIndex</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span> <span class="o">=</span> <span class="n">move</span>
+	<span class="n">placedTile</span> <span class="o">=</span> <span class="n">placedTileGroup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="n">newTileGroup</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">placedTileGroup</span> <span class="k">if</span> <span class="n">y</span> <span class="o">!=</span> <span class="n">placedTile</span><span class="p">)</span>
+	<span class="n">board</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">board</span>
+	<span class="n">tiles</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">tiles</span>
+	<span class="n">tile</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="n">placedTile</span><span class="p">]</span>
+
+	<span class="c"># remove board spaces that were filled by the placed tile in boardConstraints</span>
+	<span class="n">filledSpaces</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">dr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">)):</span>
+		<span class="k">for</span> <span class="n">dc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+			<span class="k">if</span> <span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">dr</span><span class="p">][</span><span class="n">dc</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+				<span class="c"># occurs if branching with multiple moves and moves conflict</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">row</span><span class="o">+</span><span class="n">dr</span><span class="p">,</span><span class="n">col</span><span class="o">+</span><span class="n">dc</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">boardConstraints</span><span class="p">:</span>
+					<span class="k">return</span> <span class="bp">False</span>
+				<span class="k">del</span> <span class="n">boardConstraints</span><span class="p">[(</span><span class="n">row</span><span class="o">+</span><span class="n">dr</span><span class="p">,</span><span class="n">col</span><span class="o">+</span><span class="n">dc</span><span class="p">)]</span>
+				<span class="n">filledSpaces</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">row</span><span class="o">+</span><span class="n">dr</span><span class="p">,</span><span class="n">col</span><span class="o">+</span><span class="n">dc</span><span class="p">))</span>
+	<span class="n">filledSpaces</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">filledSpaces</span><span class="p">)</span>
+
+	<span class="c"># POSSIBLE FUTURE IMPROVEMENT</span>
+	<span class="c"># remove moves that are just reflections / rotations</span>
+	<span class="k">if</span> <span class="n">board</span><span class="o">.</span><span class="n">horizontalSymmetry</span><span class="p">:</span>
+		<span class="k">pass</span>
+	<span class="k">if</span> <span class="n">board</span><span class="o">.</span><span class="n">verticalSymmetry</span><span class="p">:</span>
+		<span class="k">pass</span>
+	<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">board</span><span class="o">.</span><span class="n">rotationalSymmetry</span><span class="p">[</span><span class="n">n</span><span class="p">]:</span>
+			<span class="k">pass</span>
+
+	<span class="n">newTileGroup</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">placedTileGroup</span> <span class="k">if</span> <span class="n">y</span> <span class="o">!=</span> <span class="n">placedTile</span><span class="p">)</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">gridIndex</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">)</span> <span class="ow">in</span> <span class="n">tileConstraints</span><span class="p">[</span><span class="n">placedTileGroup</span><span class="p">]:</span>
+		<span class="c"># remove placed tile location from its tile gorup in tileConstraints</span>
+		<span class="n">tileConstraints</span><span class="p">[</span><span class="n">placedTileGroup</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">((</span><span class="n">gridIndex</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">))</span>
+		<span class="c"># remove placed tile from its tile group in tileConstraints</span>
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">newTileGroup</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">tileConstraints</span><span class="p">[</span><span class="n">newTileGroup</span><span class="p">]</span> <span class="o">=</span> <span class="n">tileConstraints</span><span class="p">[</span><span class="n">placedTileGroup</span><span class="p">]</span>
+		<span class="k">del</span> <span class="n">tileConstraints</span><span class="p">[</span><span class="n">placedTileGroup</span><span class="p">]</span>
+
+	<span class="c"># remove placed tile from its tile groups in boardConstraints</span>
+	<span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">boardConstraints</span><span class="p">:</span>
+		<span class="n">constraint</span> <span class="o">=</span> <span class="n">boardConstraints</span><span class="p">[</span><span class="n">coord</span><span class="p">]</span>
+		<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">constraint</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+			<span class="n">tileGroup</span><span class="p">,</span><span class="n">gridIndex</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span> <span class="o">=</span> <span class="n">constraint</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+			<span class="k">if</span> <span class="n">tileGroup</span> <span class="o">==</span> <span class="n">placedTileGroup</span><span class="p">:</span>
+				<span class="n">constraint</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">tileGroup</span> <span class="k">if</span> <span class="n">y</span> <span class="o">!=</span> <span class="n">placedTile</span><span class="p">),</span><span class="n">gridIndex</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">)</span>
+				<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">constraint</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+					<span class="k">del</span> <span class="n">constraint</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+					<span class="c"># bad branch; no tile can fill this space on the board</span>
+					<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">constraint</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+						<span class="k">return</span> <span class="bp">False</span>
+	
+	<span class="c"># remove possible tile positions in tileConstraints that are not possible anymore</span>
+	<span class="k">for</span> <span class="n">tileGroup</span> <span class="ow">in</span> <span class="n">tileConstraints</span><span class="p">:</span>
+		<span class="n">constraint</span> <span class="o">=</span> <span class="n">tileConstraints</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">]</span>
+		<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">constraint</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+			<span class="n">gridIndex</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span> <span class="o">=</span> <span class="n">constraint</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+			<span class="n">tileKey</span> <span class="o">=</span> <span class="n">tileGroup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+			<span class="n">tile</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="n">tileKey</span><span class="p">]</span>
+			<span class="n">tile</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">distinctGrids</span><span class="p">[</span><span class="n">gridIndex</span><span class="p">]</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="n">board</span><span class="o">.</span><span class="n">validMove</span><span class="p">(</span><span class="n">tile</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">):</span>
+				<span class="k">del</span> <span class="n">constraint</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+				<span class="k">for</span> <span class="n">dr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">)):</span>
+					<span class="k">for</span> <span class="n">dc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+						<span class="k">if</span> <span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">dr</span><span class="p">][</span><span class="n">dc</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span> <span class="ow">and</span> <span class="p">(</span><span class="n">row</span><span class="o">+</span><span class="n">dr</span><span class="p">,</span><span class="n">col</span><span class="o">+</span><span class="n">dc</span><span class="p">)</span> <span class="ow">in</span> <span class="n">boardConstraints</span><span class="p">:</span>
+							<span class="k">try</span><span class="p">:</span>
+								<span class="n">boardConstraints</span><span class="p">[(</span><span class="n">row</span><span class="o">+</span><span class="n">dr</span><span class="p">,</span><span class="n">col</span><span class="o">+</span><span class="n">dc</span><span class="p">)]</span><span class="o">.</span><span class="n">remove</span><span class="p">((</span><span class="n">tileGroup</span><span class="p">,</span><span class="n">gridIndex</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">))</span>
+								<span class="c"># bad branch; no tile can fill this space on the board</span>
+								<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">boardConstraints</span><span class="p">[(</span><span class="n">row</span><span class="o">+</span><span class="n">dr</span><span class="p">,</span><span class="n">col</span><span class="o">+</span><span class="n">dc</span><span class="p">)])</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+									<span class="k">return</span> <span class="bp">False</span>
+							<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+								<span class="k">continue</span>
+
+	<span class="c"># remove tiles that cannot be placed anywhere anymore</span>
+	<span class="c"># note that this does not necessarily mean bad branch</span>
+	<span class="c">#     in the case that there are extra tiles</span>
+	<span class="n">tileConstraints</span> <span class="o">=</span> <span class="p">{</span><span class="n">tileGroup</span><span class="p">:</span><span class="n">tileConstraints</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">]</span> <span class="k">for</span> <span class="n">tileGroup</span> <span class="ow">in</span> <span class="n">tileConstraints</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tileConstraints</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">}</span>
+
+	<span class="k">return</span> <span class="bp">True</span>
+</div>
+<div class="viewcode-block" id="branch"><a class="viewcode-back" href="../main.html#main.branch">[docs]</a><span class="k">def</span> <span class="nf">branch</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">boardConstraints</span><span class="p">,</span><span class="n">tileConstraints</span><span class="p">,</span><span class="n">move</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Executes a move, updates the constraint lists, and continues branching if there is still at least one valid move to satisfy every board constraint.</span>
+
+
+<span class="sd">	:param game: the game containing board and tile information</span>
+<span class="sd">	:type game: Game</span>
+<span class="sd">	:param boardConstraints: contains a constraint for each unoccupied board space; key values are (row,col) pairs corresponding to unoccupied board spaces; values are lists of possible moves in the form of (tileGroup,row,col,gridIndex)</span>
+<span class="sd">	:type boardConstraints: dict&lt;tuple(int,int),list((tuple,int,int,int))&gt;</span>
+<span class="sd">	:param tileConstraints: contains a constraint for each tile; key values are tileGroups; values are lists of possible moves in the form (row,col,gridIndex)</span>
+<span class="sd">	:type tileConstraints: dict&lt;tuple(int,int,...),list((int,int,int))&gt;</span>
+<span class="sd">	:param move: describes the move to be executed of the form (tileGroup,row,col,gridIndex)</span>
+<span class="sd">	:type move: tuple(tuple,int,int,int)</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">tileGroup</span><span class="p">,</span><span class="n">gridIndex</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span> <span class="o">=</span> <span class="n">move</span>
+
+	<span class="n">tileKey</span> <span class="o">=</span> <span class="n">tileGroup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="n">board</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">board</span>
+	<span class="n">tiles</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">tiles</span>
+	<span class="n">tile</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="n">tileKey</span><span class="p">]</span>
+
+	<span class="n">tile</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">distinctGrids</span><span class="p">[</span><span class="n">gridIndex</span><span class="p">]</span>
+	<span class="n">board</span><span class="o">.</span><span class="n">placeTile</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="n">tileKey</span><span class="p">],</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">animate</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+		<span class="n">game</span><span class="o">.</span><span class="n">tileInfo</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">export</span><span class="p">()</span>
+
+	<span class="c"># update boardConstraints</span>
+	<span class="n">bcClone</span> <span class="o">=</span> <span class="p">{</span><span class="n">foo</span><span class="p">:[</span><span class="n">bar</span> <span class="k">for</span> <span class="n">bar</span> <span class="ow">in</span> <span class="n">boardConstraints</span><span class="p">[</span><span class="n">foo</span><span class="p">]]</span> <span class="k">for</span> <span class="n">foo</span> <span class="ow">in</span> <span class="n">boardConstraints</span><span class="p">}</span>
+	<span class="n">tcClone</span> <span class="o">=</span> <span class="p">{</span><span class="n">foo</span><span class="p">:[</span><span class="n">bar</span> <span class="k">for</span> <span class="n">bar</span> <span class="ow">in</span> <span class="n">tileConstraints</span><span class="p">[</span><span class="n">foo</span><span class="p">]]</span> <span class="k">for</span> <span class="n">foo</span> <span class="ow">in</span> <span class="n">tileConstraints</span><span class="p">}</span>
+	<span class="n">success</span> <span class="o">=</span> <span class="n">cleanConstraints</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">bcClone</span><span class="p">,</span><span class="n">tcClone</span><span class="p">,</span><span class="n">move</span><span class="p">)</span>
+
+	<span class="c"># continue dancing if not a bad branch</span>
+	<span class="n">solved</span> <span class="o">=</span> <span class="bp">False</span>
+	<span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+		<span class="n">solved</span> <span class="o">=</span> <span class="n">dance</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">bcClone</span><span class="p">,</span><span class="n">tcClone</span><span class="p">)</span>
+
+	<span class="c"># revert board state</span>
+	<span class="n">board</span><span class="o">.</span><span class="n">removeTile</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="n">tileKey</span><span class="p">])</span>
+	<span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">animate</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+		<span class="n">game</span><span class="o">.</span><span class="n">tileInfo</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">export</span><span class="p">()</span>
+
+	<span class="k">if</span> <span class="n">solved</span> <span class="ow">and</span> <span class="n">game</span><span class="o">.</span><span class="n">findJustOne</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+		<span class="k">return</span> <span class="bp">True</span>
+</div>
+<div class="viewcode-block" id="getGridOfTileLocationsOnBoard"><a class="viewcode-back" href="../main.html#main.getGridOfTileLocationsOnBoard">[docs]</a><span class="k">def</span> <span class="nf">getGridOfTileLocationsOnBoard</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">export</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Creates a grid containing the tileGroup occupying each space in the grid.</span>
+
+<span class="sd">	:param game: the game containing board and tile information</span>
+<span class="sd">	:type game: Game</span>
+<span class="sd">	:param export: dictionary of tuples(row,col,x,y,spawned,gridIndex) describing each of the tiles&#39; states</span>
+<span class="sd">	:type export: dict&lt;int,tuple(int,int,int,int,bool,int)&gt;</span>
+<span class="sd">	:returns: a 2-D array similar to the board; each cell in the grid is None, if no tile is occupying that space, or a tileKey</span>
+<span class="sd">	:rtype: 2-D array</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">tileGroups</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">tileGroups</span>
+	<span class="n">tiles</span><span class="o">=</span><span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">tiles</span>
+	<span class="n">tileLocationsByGroup</span> <span class="o">=</span> <span class="p">{</span><span class="n">tileGroup</span><span class="p">:</span><span class="nb">set</span><span class="p">([</span><span class="n">export</span><span class="p">[</span><span class="n">tileKey</span><span class="p">]</span> <span class="k">for</span> <span class="n">tileKey</span> <span class="ow">in</span> <span class="n">tileGroup</span><span class="p">])</span> <span class="k">for</span> <span class="n">tileGroup</span> <span class="ow">in</span> <span class="n">tileGroups</span><span class="p">}</span>
+	<span class="n">tileLocationsOnBoard</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">None</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">r</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">game</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">grid</span><span class="p">]</span>
+	<span class="k">for</span> <span class="n">tileGroup</span> <span class="ow">in</span> <span class="n">tileGroups</span><span class="p">:</span>
+		<span class="k">for</span> <span class="n">tileInfo</span> <span class="ow">in</span> <span class="n">tileLocationsByGroup</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">]:</span>
+			<span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">i</span> <span class="o">=</span> <span class="n">tileInfo</span>
+			<span class="n">grid</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">distinctGrids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+			<span class="k">for</span> <span class="n">dr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+				<span class="k">for</span> <span class="n">dc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+					<span class="n">tileLocationsOnBoard</span><span class="p">[</span><span class="n">r</span><span class="o">+</span><span class="n">dr</span><span class="p">][</span><span class="n">c</span><span class="o">+</span><span class="n">dc</span><span class="p">]</span> <span class="o">=</span> <span class="n">tileGroup</span> <span class="k">if</span> <span class="n">grid</span><span class="p">[</span><span class="n">dr</span><span class="p">][</span><span class="n">dc</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span> <span class="k">else</span> <span class="bp">None</span>
+	<span class="k">return</span> <span class="n">tileLocationsOnBoard</span>
+</div>
+<div class="viewcode-block" id="duplicateSolution"><a class="viewcode-back" href="../main.html#main.duplicateSolution">[docs]</a><span class="k">def</span> <span class="nf">duplicateSolution</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">export</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Determines whether the solution desribed by export has already been found.</span>
+
+<span class="sd">	:param game: the game containing board and tile information</span>
+<span class="sd">	:type game: Game</span>
+<span class="sd">	:param export: dictionary of tuples(row,col,x,y,spawned,gridIndex) describing each of the tiles&#39; states</span>
+<span class="sd">	:type export: dict&lt;int,tuple(int,int,int,int,bool,int)&gt;</span>
+<span class="sd">	:returns: True if a solution equivalent to that described by export is already in game.solutions</span>
+<span class="sd">	:rtype: 2-D array</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">solutions</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+		<span class="k">return</span> <span class="bp">False</span>
+	<span class="n">tileGroups</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">tileGroups</span>
+	<span class="n">tiles</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">tiles</span>
+	<span class="n">gridOfTileLocationsOnBoardA</span> <span class="o">=</span> <span class="n">getGridOfTileLocationsOnBoard</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">export</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">solution</span> <span class="ow">in</span> <span class="n">game</span><span class="o">.</span><span class="n">solutions</span><span class="p">:</span>
+		<span class="n">gridOfTileLocationsOnBoardB</span> <span class="o">=</span> <span class="n">getGridOfTileLocationsOnBoard</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">solution</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+			<span class="n">gridOfTileLocationsOnBoardB</span> <span class="o">=</span> <span class="n">rotateClockwise</span><span class="p">(</span><span class="n">gridOfTileLocationsOnBoardB</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">equivalentGrids</span><span class="p">(</span><span class="n">gridOfTileLocationsOnBoardA</span><span class="p">,</span><span class="n">gridOfTileLocationsOnBoardB</span><span class="p">):</span>
+				<span class="k">return</span> <span class="bp">True</span>
+		<span class="n">gridOfTileLocationsOnBoardB</span> <span class="o">=</span> <span class="n">flipHorizontally</span><span class="p">(</span><span class="n">gridOfTileLocationsOnBoardB</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+			<span class="n">gridOfTileLocationsOnBoardB</span> <span class="o">=</span> <span class="n">rotateClockwise</span><span class="p">(</span><span class="n">gridOfTileLocationsOnBoardB</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">equivalentGrids</span><span class="p">(</span><span class="n">gridOfTileLocationsOnBoardA</span><span class="p">,</span><span class="n">gridOfTileLocationsOnBoardB</span><span class="p">):</span>
+				<span class="k">return</span> <span class="bp">True</span>
+	<span class="k">return</span> <span class="bp">False</span>
+
+<span class="c"># check for duplicate solutions manually because when tiles aren&#39;t played, then duplicates appear</span>
+<span class="c"># It is probably possible to add an optimization for removing moves corresponding to</span>
+<span class="c"># rotations / flips / reflections of the entire board.</span></div>
+<div class="viewcode-block" id="dance"><a class="viewcode-back" href="../main.html#main.dance">[docs]</a><span class="k">def</span> <span class="nf">dance</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">boardConstraints</span><span class="p">,</span><span class="n">tileConstraints</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Dances through the board constraints looking for tile solutions. The next move is chosen using the list of possible moves for the constraint with the least number of possible moves.</span>
+<span class="sd">	For each of those possible moves, a branch is spawned and explored. If the board can be filled with the other tiles besides the one that is</span>
+<span class="sd">	being branched with, then we will still have to branch again after eliminating that tile.</span>
+
+<span class="sd">	:param game: the game containing board and tile information</span>
+<span class="sd">	:type game: Game</span>
+<span class="sd">	:param boardConstraints: contains a constraint for each unoccupied board space; key values are (row,col) pairs corresponding to unoccupied board spaces; values are lists of possible moves in the form of (tileGroup,row,col,gridIndex)</span>
+<span class="sd">	:type boardConstraints: dict&lt;tuple(int,int),list((tuple,int,int,int))&gt;</span>
+<span class="sd">	:param tileConstraints: contains a constraint for each tile; key values are tileGroups; values are lists of possible moves in the form (row,col,gridIndex)</span>
+<span class="sd">	:type tileConstraints: dict&lt;tuple(int,int,...),list((int,int,int))&gt;</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="c"># reapeat until board has no empty slots that have to be filled</span>
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">boardConstraints</span><span class="p">:</span>
+		<span class="n">export</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">export</span><span class="p">()</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">duplicateSolution</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">export</span><span class="p">):</span>
+			<span class="n">game</span><span class="o">.</span><span class="n">solutions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">export</span><span class="p">)</span>
+			<span class="n">game</span><span class="o">.</span><span class="n">readyToDrawSolutions</span> <span class="o">=</span> <span class="bp">True</span>
+		<span class="k">return</span> <span class="bp">True</span>
+
+	<span class="n">board</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">board</span>
+	<span class="n">tileBucket</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span>
+	<span class="n">tiles</span> <span class="o">=</span> <span class="n">tileBucket</span><span class="o">.</span><span class="n">tiles</span>
+	<span class="n">tileGroups</span> <span class="o">=</span> <span class="n">tileBucket</span><span class="o">.</span><span class="n">tileGroups</span>
+
+	<span class="n">coord</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">boardConstraints</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">boardConstraints</span><span class="p">[</span><span class="n">c</span><span class="p">]))</span> <span class="c"># get boardConstraint with least number of candidates</span>
+	<span class="n">tileGroup</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">tileConstraints</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">tg</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">tileConstraints</span><span class="p">[</span><span class="n">tg</span><span class="p">])</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">tg</span><span class="p">))</span> <span class="c"># get tileConstraint with least number of candidates per tileGroup memeber</span>
+
+	<span class="c"># </span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tileConstraints</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">tileConstraints</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">])</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">tileGroup</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">boardConstraints</span><span class="p">[</span><span class="n">coord</span><span class="p">]):</span>
+		<span class="k">for</span> <span class="n">gridIndex</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span> <span class="ow">in</span> <span class="n">tileConstraints</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">]:</span>
+			<span class="n">solved</span> <span class="o">=</span> <span class="n">branch</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">boardConstraints</span><span class="p">,</span><span class="n">tileConstraints</span><span class="p">,(</span><span class="n">tileGroup</span><span class="p">,</span><span class="n">gridIndex</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">))</span>
+			<span class="k">if</span> <span class="n">solved</span> <span class="ow">and</span> <span class="n">game</span><span class="o">.</span><span class="n">findJustOne</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+				<span class="k">return</span> <span class="bp">True</span>
+		<span class="n">canSolveWithoutTile</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">boardConstraints</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">tiles</span><span class="p">[</span><span class="n">tg</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">size</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">tg</span><span class="p">)</span> <span class="k">for</span> <span class="n">tg</span> <span class="ow">in</span> <span class="n">tileConstraints</span><span class="p">])</span> <span class="o">-</span>  <span class="n">tiles</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">size</span>
+		<span class="k">if</span> <span class="n">canSolveWithoutTile</span><span class="p">:</span>
+			<span class="c"># remove the branch that was explored from constraint lists</span>
+			<span class="n">newTileGroup</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">tileGroup</span> <span class="k">if</span> <span class="n">y</span> <span class="o">!=</span> <span class="n">tileGroup</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+			<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">newTileGroup</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="n">tileConstraints</span><span class="p">[</span><span class="n">newTileGroup</span><span class="p">]</span> <span class="o">=</span> <span class="n">tileConstraints</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">]</span>
+				<span class="n">boardConstraints</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:[(</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">m</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="k">if</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">tileGroup</span> <span class="k">else</span> <span class="p">(</span><span class="n">newTileGroup</span><span class="p">,</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">m</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">boardConstraints</span><span class="p">[</span><span class="n">c</span><span class="p">]]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">boardConstraints</span><span class="p">}</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">boardConstraints</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:[(</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">m</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">boardConstraints</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">if</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">tileGroup</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">boardConstraints</span><span class="p">}</span>
+			<span class="k">del</span> <span class="n">tileConstraints</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">]</span>
+			<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">boardConstraints</span><span class="p">:</span>
+				<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">boardConstraints</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+					<span class="k">return</span>
+			<span class="n">solved</span> <span class="o">=</span> <span class="n">dance</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">boardConstraints</span><span class="p">,</span><span class="n">tileConstraints</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">solved</span> <span class="ow">and</span> <span class="n">game</span><span class="o">.</span><span class="n">findJustOne</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+				<span class="k">return</span> <span class="bp">True</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="k">for</span> <span class="n">move</span> <span class="ow">in</span> <span class="n">boardConstraints</span><span class="p">[</span><span class="n">coord</span><span class="p">]:</span>
+			<span class="n">solved</span> <span class="o">=</span> <span class="n">branch</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">boardConstraints</span><span class="p">,</span><span class="n">tileConstraints</span><span class="p">,</span><span class="n">move</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">solved</span> <span class="ow">and</span> <span class="n">game</span><span class="o">.</span><span class="n">findJustOne</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+				<span class="k">return</span> <span class="bp">True</span>
+</div>
+<span class="k">def</span> <span class="nf">createConstraintLists</span><span class="p">(</span><span class="n">game</span><span class="p">):</span>
+	<span class="n">boardConstraints</span> <span class="o">=</span> <span class="p">{}</span>
+	<span class="n">tileConstraints</span> <span class="o">=</span> <span class="p">{}</span>
+	<span class="n">board</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">board</span>
+	<span class="n">tiles</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">tiles</span>
+	<span class="n">tileGroups</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">tileGroups</span>
+	<span class="k">for</span> <span class="n">tileGroup</span> <span class="ow">in</span> <span class="n">tileGroups</span><span class="p">:</span>
+		<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">grid</span><span class="p">)):</span>
+			<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+				<span class="n">tileKey</span> <span class="o">=</span> <span class="n">tileGroup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+				<span class="n">tile</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="n">tileKey</span><span class="p">]</span>
+				<span class="k">for</span> <span class="n">gridIndex</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">distinctGrids</span><span class="p">)):</span>
+					<span class="n">tile</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">distinctGrids</span><span class="p">[</span><span class="n">gridIndex</span><span class="p">]</span>
+					<span class="k">if</span> <span class="n">board</span><span class="o">.</span><span class="n">validMove</span><span class="p">(</span><span class="n">tile</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
+						<span class="k">if</span> <span class="n">tileGroup</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tileConstraints</span><span class="p">:</span>
+							<span class="n">tileConstraints</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+						<span class="n">tileConstraints</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">gridIndex</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">))</span>
+						<span class="k">for</span> <span class="n">dr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">)):</span>
+							<span class="k">for</span> <span class="n">dc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+								<span class="k">if</span> <span class="n">tile</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">dr</span><span class="p">][</span><span class="n">dc</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+									<span class="k">if</span> <span class="p">(</span><span class="n">r</span><span class="o">+</span><span class="n">dr</span><span class="p">,</span><span class="n">c</span><span class="o">+</span><span class="n">dc</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">boardConstraints</span><span class="p">:</span>
+										<span class="n">boardConstraints</span><span class="p">[(</span><span class="n">r</span><span class="o">+</span><span class="n">dr</span><span class="p">,</span><span class="n">c</span><span class="o">+</span><span class="n">dc</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[]</span>
+									<span class="n">boardConstraints</span><span class="p">[(</span><span class="n">r</span><span class="o">+</span><span class="n">dr</span><span class="p">,</span><span class="n">c</span><span class="o">+</span><span class="n">dc</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">tileGroup</span><span class="p">,</span><span class="n">gridIndex</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">))</span>
+	<span class="k">return</span> <span class="n">boardConstraints</span><span class="p">,</span><span class="n">tileConstraints</span>
+
+<span class="k">def</span> <span class="nf">dancingLinks</span><span class="p">(</span><span class="n">game</span><span class="p">):</span>
+	<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+	<span class="n">game</span><span class="o">.</span><span class="n">clearBoard</span><span class="p">()</span>
+	<span class="n">game</span><span class="o">.</span><span class="n">solutions</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">boardConstraints</span><span class="p">,</span><span class="n">tileConstraints</span> <span class="o">=</span> <span class="n">createConstraintLists</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
+
+	<span class="n">dance</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">boardConstraints</span><span class="p">,</span><span class="n">tileConstraints</span><span class="p">)</span>
+	<span class="n">game</span><span class="o">.</span><span class="n">readyToDrawSolutions</span> <span class="o">=</span> <span class="bp">True</span>
+
+	<span class="n">stop_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+	<span class="k">print</span> <span class="s">&#39;Execution time: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">stop_time</span><span class="o">-</span><span class="n">start_time</span><span class="p">)</span>
+	<span class="k">print</span> <span class="s">&#39;Solutions found: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">solutions</span><span class="p">))</span>
+	<span class="k">print</span> <span class="s">&#39;&#39;</span>
+
+<span class="k">def</span> <span class="nf">printTileConstraints</span><span class="p">(</span><span class="n">tileConstraints</span><span class="p">):</span>
+	<span class="k">print</span> <span class="s">&#39;Tile Constraints&#39;</span>
+	<span class="k">for</span> <span class="n">tileGroup</span> <span class="ow">in</span> <span class="n">tileConstraints</span><span class="p">:</span>
+		<span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tileGroup</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tileConstraints</span><span class="p">[</span><span class="n">tileGroup</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">printBoardConstraints</span><span class="p">(</span><span class="n">boardConstraints</span><span class="p">):</span>
+	<span class="k">print</span> <span class="s">&#39;Board Constraints&#39;</span>
+	<span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">boardConstraints</span><span class="p">:</span>
+		<span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">row </span><span class="si">%d</span><span class="s">, col </span><span class="si">%d</span><span class="s">:&#39;</span><span class="o">%</span><span class="n">coord</span>
+		<span class="k">for</span> <span class="n">possibleMove</span> <span class="ow">in</span> <span class="n">boardConstraints</span><span class="p">[</span><span class="n">coord</span><span class="p">]:</span>
+			<span class="k">print</span> <span class="s">&#39;</span><span class="se">\t\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">possibleMove</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">doInExternalThread</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+	<span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span> <span class="o">=</span> <span class="n">f</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">a</span><span class="p">)</span>
+	<span class="n">t</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">True</span>
+	<span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">game</span><span class="p">):</span>
+	<span class="n">game</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">selectedFile</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+	<span class="n">game</span><span class="o">.</span><span class="n">tileInfo</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">export</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">diagnostics</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">depth</span><span class="p">):</span>
+	<span class="k">if</span> <span class="n">depth</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">files</span><span class="p">):</span>
+		<span class="k">return</span>
+	<span class="n">name</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="n">depth</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+	<span class="n">game</span><span class="o">.</span><span class="n">selectedFile</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+	<span class="n">game</span><span class="o">.</span><span class="n">loadingOutsideMainThread</span> <span class="o">=</span> <span class="bp">True</span>
+	<span class="n">game</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+	<span class="n">game</span><span class="o">.</span><span class="n">loadingOutsideMainThread</span> <span class="o">=</span> <span class="bp">False</span>
+	<span class="n">game</span><span class="o">.</span><span class="n">tileInfo</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">export</span><span class="p">()</span>
+	<span class="k">print</span> <span class="n">name</span>
+	<span class="n">dancingLinks</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
+	<span class="n">diagnostics</span><span class="p">(</span><span class="n">game</span><span class="p">,</span><span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+	<span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">}</span>
+	<span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+	<span class="n">root</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">root</span>
+
+	<span class="c"># Bottom frame</span>
+	<span class="n">bottomFrame</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">bottomFrame</span>
+
+	<span class="n">Button</span><span class="p">(</span><span class="n">bottomFrame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Run Diagnostics&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span><span class="n">doInExternalThread</span><span class="p">(</span><span class="n">diagnostics</span><span class="p">,</span><span class="nb">tuple</span><span class="p">([</span><span class="n">game</span><span class="p">,</span><span class="mi">0</span><span class="p">])))</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">)</span>
+	<span class="n">Button</span><span class="p">(</span><span class="n">bottomFrame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Dancing Links&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span><span class="n">doInExternalThread</span><span class="p">(</span><span class="n">dancingLinks</span><span class="p">,</span><span class="nb">tuple</span><span class="p">([</span><span class="n">game</span><span class="p">])))</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">)</span>
+	<span class="n">Button</span><span class="p">(</span><span class="n">bottomFrame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Brute Force&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span><span class="n">doInExternalThread</span><span class="p">(</span><span class="n">bruteForce</span><span class="p">,</span><span class="nb">tuple</span><span class="p">([</span><span class="n">game</span><span class="p">])))</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">)</span>
+	<span class="n">Button</span><span class="p">(</span><span class="n">bottomFrame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Draw Solutions&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span><span class="n">game</span><span class="o">.</span><span class="n">drawSolutions</span><span class="p">())</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">)</span>
+	<span class="n">Checkbutton</span><span class="p">(</span><span class="n">bottomFrame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Find just one solution&quot;</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">game</span><span class="o">.</span><span class="n">findJustOne</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">)</span>
+	<span class="n">Checkbutton</span><span class="p">(</span><span class="n">bottomFrame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Can flip tiles&quot;</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">game</span><span class="o">.</span><span class="n">canFlipTiles</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">)</span>
+	<span class="n">Checkbutton</span><span class="p">(</span><span class="n">bottomFrame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Animate&quot;</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">game</span><span class="o">.</span><span class="n">animate</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">)</span>
+	<span class="n">Button</span><span class="p">(</span><span class="n">bottomFrame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Load&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span><span class="n">load</span><span class="p">(</span><span class="n">game</span><span class="p">))</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">)</span>
+	<span class="nb">apply</span><span class="p">(</span><span class="n">OptionMenu</span><span class="p">,</span> <span class="p">(</span><span class="n">bottomFrame</span><span class="p">,</span><span class="n">game</span><span class="o">.</span><span class="n">selectedFile</span><span class="p">)</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">game</span><span class="o">.</span><span class="n">files</span><span class="p">))</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">)</span>
+
+	<span class="n">game</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">selectedFile</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+	<span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">animate</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+		<span class="n">game</span><span class="o">.</span><span class="n">tileInfo</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tileBucket</span><span class="o">.</span><span class="n">export</span><span class="p">()</span>
+
+	<span class="k">def</span> <span class="nf">update</span><span class="p">():</span>
+		<span class="k">if</span> <span class="n">closedWindow</span><span class="p">:</span>
+			<span class="k">return</span>
+		<span class="n">game</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">tileInfo</span><span class="p">)</span>
+		<span class="n">game</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">after</span><span class="p">(</span><span class="mi">35</span><span class="p">,</span><span class="n">update</span><span class="p">)</span>
+	<span class="k">global</span> <span class="n">closedWindow</span>
+	<span class="n">closedWindow</span> <span class="o">=</span> <span class="bp">False</span>
+	<span class="k">def</span> <span class="nf">quit</span><span class="p">():</span>
+		<span class="k">global</span> <span class="n">closedWindow</span>
+		<span class="n">closedWindow</span> <span class="o">=</span> <span class="bp">True</span>
+		<span class="n">root</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+
+	<span class="c"># game.findJustOne.set(True)</span>
+	<span class="c"># game.canFlipTiles.set(False)</span>
+	<span class="c"># diagnostics(game,0)</span>
+
+	<span class="n">game</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">after</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">update</span><span class="p">)</span>
+	
+	<span class="n">root</span><span class="o">.</span><span class="n">protocol</span><span class="p">(</span><span class="s">&quot;WM_DELETE_WINDOW&quot;</span><span class="p">,</span> <span class="n">quit</span><span class="p">)</span>
+	<span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+	<span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Nathan Williams.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

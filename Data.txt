@@ -1,0 +1,233 @@
+Tiles cannot be flipped:
+
+Puzzle 1: checkerboard
+Execution time: 181.429000139
+Solutions found: 12
+
+Puzzle 2: partial_cross
+Execution time: 16.0039999485
+Solutions found: 0
+
+Puzzle 3: pentominoes3x20
+Execution time: 9.30900001526
+Solutions found: 0
+
+Puzzle 4: pentominoes4x15
+Execution time: 228.875999928
+Solutions found: 8
+
+Puzzle 5: pentominoes5x12
+Execution time: 781.539000034
+Solutions found: 23
+
+Puzzle 6: pentominoes6x10
+Execution time: 1417.00300002
+Solutions found: 53
+
+Puzzle 7: pentominoes8x8_middle_missing
+Execution time: 80.6139998436
+Solutions found: 1
+
+Puzzle 8: simple
+Execution time: 0.00100016593933
+Solutions found: 1
+
+Puzzle 9: simple_test
+Execution time: 0.384000062943
+Solutions found: 32
+
+Puzzle 10: test1
+Execution time: 0.085000038147
+Solutions found: 1
+
+Puzzle 11: test2
+Execution time: 0.095999956131
+Solutions found: 1
+
+Puzzle 12: thirteen_holes
+Execution time: 1.69299983978
+Solutions found: 0
+
+Puzzle 13: trivial
+Execution time: 0.0
+Solutions found: 1
+
+[Finished in 2718.0s]
+
+
+
+
+
+Tiles can be flipped:
+
+Puzzle 1: checkerboard
+Execution time: 5464.01699996
+Solutions found: 991
+
+Puzzle 2: partial_cross
+Execution time: 111.299999952
+Solutions found: 122
+
+Puzzle 3: pentominoes3x20
+Execution time: 109.397000074
+Solutions found: 2
+
+Puzzle 4: pentominoes4x15
+Execution time: 3352.54799986
+Solutions found: 368
+
+Puzzle 5: pentominoes5x12
+Execution time: 9593.26400018
+Solutions found: 1010
+
+Puzzle 6: pentominoes6x10
+Execution time: 18811.6660001
+Solutions found: 2336
+
+Puzzle 7: pentominoes8x8_middle_missing
+Execution time: 1156.80599999
+Solutions found: 65
+
+Puzzle 8: simple
+Execution time: 0.0
+Solutions found: 1
+
+Puzzle 9: simple_test
+Execution time: 0.328000068665
+Solutions found: 32
+
+Puzzle 10: test1
+Execution time: 0.126000165939
+Solutions found: 1
+
+Puzzle 11: test2
+Execution time: 0.110000133514
+Solutions found: 1
+
+Puzzle 12: thirteen_holes
+Execution time: 10.0020000935
+Solutions found: 2
+
+Puzzle 13: trivial
+Execution time: 0.0
+Solutions found: 1
+
+[Finished in 38610.5s]
+
+
+
+
+Can flip tiles and just find one solution
+
+Puzzle 1: checkerboard
+Execution time: 0.81200003624
+Solutions found: 1
+
+Puzzle 2: partial_cross
+Execution time: 1.07800006866
+Solutions found: 1
+
+Puzzle 3: pentominoes3x20
+Execution time: 6.0150001049
+Solutions found: 1
+
+Puzzle 4: pentominoes4x15
+Execution time: 3.30900001526
+Solutions found: 1
+
+Puzzle 5: pentominoes5x12
+Execution time: 1.96899986267
+Solutions found: 1
+
+Puzzle 6: pentominoes6x10
+Execution time: 1.43699979782
+Solutions found: 1
+
+Puzzle 7: pentominoes8x8_middle_missing
+Execution time: 11.7209999561
+Solutions found: 1
+
+Puzzle 8: simple
+Execution time: 0.0
+Solutions found: 1
+
+Puzzle 9: simple_test
+Execution time: 0.0469999313354
+Solutions found: 1
+
+Puzzle 10: test1
+Execution time: 0.0309998989105
+Solutions found: 1
+
+Puzzle 11: test2
+Execution time: 0.0469999313354
+Solutions found: 1
+
+Puzzle 12: thirteen_holes
+Execution time: 0.828000068665
+Solutions found: 1
+
+Puzzle 13: trivial
+Execution time: 0.0
+Solutions found: 1
+
+[Finished in 28.2s]
+
+
+
+
+
+Don't flip tiles and find just one solution
+Puzzle 1: checkerboard
+Execution time: 56.239000082
+Solutions found: 1
+
+Puzzle 2: partial_cross
+Execution time: 15.6300001144
+Solutions found: 0
+
+Puzzle 3: pentominoes3x20
+Execution time: 8.93099999428
+Solutions found: 0
+
+Puzzle 4: pentominoes4x15
+Execution time: 2.46200013161
+Solutions found: 1
+
+Puzzle 5: pentominoes5x12
+Execution time: 113.914000034
+Solutions found: 1
+
+Puzzle 6: pentominoes6x10
+Execution time: 11.7829999924
+Solutions found: 1
+
+Puzzle 7: pentominoes8x8_middle_missing
+Execution time: 16.5829999447
+Solutions found: 1
+
+Puzzle 8: simple
+Execution time: 0.0
+Solutions found: 1
+
+Puzzle 9: simple_test
+Execution time: 0.0309998989105
+Solutions found: 1
+
+Puzzle 10: test1
+Execution time: 0.0339999198914
+Solutions found: 1
+
+Puzzle 11: test2
+Execution time: 0.0339999198914
+Solutions found: 1
+
+Puzzle 12: thirteen_holes
+Execution time: 1.66000008583
+Solutions found: 0
+
+Puzzle 13: trivial
+Execution time: 0.0
+Solutions found: 1
+
+[Finished in 228.4s]

@@ -1,0 +1,869 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Game Module &mdash; Tiling Puzzle Solver 1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Tiling Puzzle Solver 1 documentation" href="index.html"/>
+        <link rel="next" title="The Main Module" href="main.html"/>
+        <link rel="prev" title="Welcome to Tiling Puzzle Solver’s documentation!" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Tiling Puzzle Solver
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Game Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#game-class">Game Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#board-class">Board Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tilebucket-class">TileBucket Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tile-class">Tile Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tilebuilder-class">TileBuilder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#static-methods">Static Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">The Main Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Example Puzzles</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Tiling Puzzle Solver</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Game Module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/game.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-game"></span><div class="section" id="game-module">
+<h1>Game Module<a class="headerlink" href="#game-module" title="Permalink to this headline">¶</a></h1>
+<p>This is a custom made library to facilitate the graphics, solving, and general gameplay of the Tiling Puzzle Game.</p>
+<div class="section" id="game-class">
+<h2>Game Class<a class="headerlink" href="#game-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="game.Game">
+<em class="property">class </em><code class="descclassname">game.</code><code class="descname">Game</code><span class="sig-paren">(</span><em>settings={}</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Game"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Game" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manager for graphics and board/tile state.</p>
+<dl class="method">
+<dt id="game.Game.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>settings={}</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Game.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Game.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>settings</strong> (<em>dict</em>) &#8211; optional parameter containing settings for how the game should be displayed; defaults to {}</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Game.initializeSettings">
+<code class="descname">initializeSettings</code><span class="sig-paren">(</span><em>settings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Game.initializeSettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Game.initializeSettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes graphics constants and variables. If the settings parameter is empty, then default values are used.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Game.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>fileKey</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Game.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Game.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads the currently selected puzzle. In the event that a bad board config file is given, the user is notified via the console.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filekey</strong> (<em>str</em>) &#8211; refers to the file containing the puzzle to be loaded</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Game.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>tileInfo=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Game.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Game.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redraws the board, tiles, and tile list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tileInfo</strong> (<em>dict</em>) &#8211; if provided, used to determine tile states; otherwise, self.tileBucket is used</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Game.drawBoardAndTiles">
+<code class="descname">drawBoardAndTiles</code><span class="sig-paren">(</span><em>tileBucket=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Game.drawBoardAndTiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Game.drawBoardAndTiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws both the board and the tiles have been placed on the board.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tileBucket</strong> (<a class="reference internal" href="#game.TileBucket" title="game.TileBucket"><em>TileBucket</em></a>) &#8211; used to determine if and where tiles should be drawn on the board</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Game.drawTileOnCanvas">
+<code class="descname">drawTileOnCanvas</code><span class="sig-paren">(</span><em>tile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Game.drawTileOnCanvas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Game.drawTileOnCanvas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws a tile that has been spawned, but not placed on the board, based on the tile.x and tile.y.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tile</strong> (<a class="reference internal" href="#game.Tile" title="game.Tile"><em>Tile</em></a>) &#8211; the tile to be drawn</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Game.drawTileOnBoard">
+<code class="descname">drawTileOnBoard</code><span class="sig-paren">(</span><em>tile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Game.drawTileOnBoard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Game.drawTileOnBoard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws a tile that has been both spawned and placed on the board based on its tile.row and tile.col.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tile</strong> (<a class="reference internal" href="#game.Tile" title="game.Tile"><em>Tile</em></a>) &#8211; the tile to be drawn</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Game.drawSolutions">
+<code class="descname">drawSolutions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Game.drawSolutions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Game.drawSolutions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws solutions that have been found and added to the solutions list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Game.drawBoard">
+<code class="descname">drawBoard</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Game.drawBoard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Game.drawBoard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws the board.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Game.clearBoard">
+<code class="descname">clearBoard</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Game.clearBoard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Game.clearBoard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets board and despawns all tiles.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Game.parseInputFile">
+<code class="descname">parseInputFile</code><span class="sig-paren">(</span><em>filekey</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Game.parseInputFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Game.parseInputFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interprets the board configurations in the text file referred to by the fileKey. Each body of text is taken to be a tile where the largest tile is the board.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filekey</strong> (<em>str</em>) &#8211; refers to the file containing the puzzle to be read and loaded</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the board config file was valid; False otherwise</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool:</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="board-class">
+<h2>Board Class<a class="headerlink" href="#board-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="game.Board">
+<em class="property">class </em><code class="descclassname">game.</code><code class="descname">Board</code><span class="sig-paren">(</span><em>game</em>, <em>grid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Board"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Board" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents the board state, including properties of each space in the board and what spaces are occupied.</p>
+<dl class="method">
+<dt id="game.Board.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>game</em>, <em>grid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Board.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Board.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>game</strong> (<a class="reference internal" href="#game.Game" title="game.Game"><em>Game</em></a>) &#8211; contains display settings</li>
+<li><strong>grid</strong> (<em>2-D array</em>) &#8211; grid of board spaces</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Board.validMove">
+<code class="descname">validMove</code><span class="sig-paren">(</span><em>tile</em>, <em>r</em>, <em>c</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Board.validMove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Board.validMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines whether the given tile may be placed on the board at row <em>r</em> and col <em>c</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tile</strong> (<a class="reference internal" href="#game.Tile" title="game.Tile"><em>Tile</em></a>) &#8211; tile to check</li>
+<li><strong>r</strong> (<em>int</em>) &#8211; row at which to check if tile can be placed</li>
+<li><strong>c</strong> (<em>int</em>) &#8211; col at which to check if tile can be placed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Board.placeTile">
+<code class="descname">placeTile</code><span class="sig-paren">(</span><em>tile</em>, <em>r</em>, <em>c</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Board.placeTile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Board.placeTile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Places tile and updates the board accordingly.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tile</strong> (<a class="reference internal" href="#game.Tile" title="game.Tile"><em>Tile</em></a>) &#8211; the tile being placed</li>
+<li><strong>r</strong> (<em>int</em>) &#8211; row at which to play tile</li>
+<li><strong>c</strong> (<em>int</em>) &#8211; col at which to play tile</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Board.removeTile">
+<code class="descname">removeTile</code><span class="sig-paren">(</span><em>tile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Board.removeTile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Board.removeTile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes tile off of board.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tile</strong> (<a class="reference internal" href="#game.Tile" title="game.Tile"><em>Tile</em></a>) &#8211; the tile to be removed from the board and despawned</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Board.clear">
+<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Board.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Board.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets the board so that no spaces are occupied.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Board.nextEmptySpace">
+<code class="descname">nextEmptySpace</code><span class="sig-paren">(</span><em>startrow</em>, <em>startcol</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Board.nextEmptySpace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Board.nextEmptySpace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the next empty spaced, scanning the board top to bottom, left to right.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>startrow</strong> (<em>int</em>) &#8211; the row to start scanning from</li>
+<li><strong>startcol</strong> (<em>int</em>) &#8211; the col to start scanning from</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(row,col) tuple corresponding to first empty space in the board</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple(int,int)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="tilebucket-class">
+<h2>TileBucket Class<a class="headerlink" href="#tilebucket-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="game.TileBucket">
+<em class="property">class </em><code class="descclassname">game.</code><code class="descname">TileBucket</code><span class="sig-paren">(</span><em>game</em>, <em>tiles</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#TileBucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.TileBucket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Container for all tiles.</p>
+<dl class="method">
+<dt id="game.TileBucket.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>game</em>, <em>tiles</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#TileBucket.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.TileBucket.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class constructor.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.TileBucket.drawTileList">
+<code class="descname">drawTileList</code><span class="sig-paren">(</span><em>game</em>, <em>canvas</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#TileBucket.drawTileList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.TileBucket.drawTileList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws tile list. Spawned tiles are grayed out.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>game</strong> (<a class="reference internal" href="#game.Game" title="game.Game"><em>Game</em></a>) &#8211; contains drawing constants</li>
+<li><strong>canvas</strong> (<em>TKinter.Canvas</em>) &#8211; the canvas on which to draw the tileBucket</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.TileBucket.despawnTiles">
+<code class="descname">despawnTiles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#TileBucket.despawnTiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.TileBucket.despawnTiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Despawns all tiles</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.TileBucket.export">
+<code class="descname">export</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#TileBucket.export"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.TileBucket.export" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the state info for all of the tiles.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a dictionary of the state info for the tiles</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="tile-class">
+<h2>Tile Class<a class="headerlink" href="#tile-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="game.Tile">
+<em class="property">class </em><code class="descclassname">game.</code><code class="descname">Tile</code><a class="reference internal" href="_modules/game.html#Tile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Tile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents the tiles in the game.</p>
+<dl class="method">
+<dt id="game.Tile.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Tile.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Tile.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class constructor.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Tile.spawnTile">
+<code class="descname">spawnTile</code><span class="sig-paren">(</span><em>game</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Tile.spawnTile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Tile.spawnTile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the tile out of the tile list and moves it to a random spot in the pile (not on the board).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game</strong> (<a class="reference internal" href="#game.Game" title="game.Game"><em>Game</em></a>) &#8211; the game containing board and tile information</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Tile.despawnTile">
+<code class="descname">despawnTile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Tile.despawnTile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Tile.despawnTile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns tile to tile list and resets both board and game coordinates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Tile.placeTile">
+<code class="descname">placeTile</code><span class="sig-paren">(</span><em>r</em>, <em>c</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Tile.placeTile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Tile.placeTile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Spawns the tile and updates its board coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>r</strong> (<em>int</em>) &#8211; row coordinate</li>
+<li><strong>c</strong> (<em>int</em>) &#8211; row coordinate</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="game.Tile.drawInList">
+<code class="descname">drawInList</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>game</em>, <em>canvas</em>, <em>blockSize</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#Tile.drawInList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.Tile.drawInList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws this tile in the tile list. If the tile is spawned, it is drawn in grayscale.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> (<em>int</em>) &#8211; describes top-left of block of tile list in which to draw the tile</li>
+<li><strong>y</strong> (<em>int</em>) &#8211; describes top-left of block of tile list in which to draw the tile</li>
+<li><strong>game</strong> (<a class="reference internal" href="#game.Game" title="game.Game"><em>Game</em></a>) &#8211; the game containing board and tile information</li>
+<li><strong>canvas</strong> (<em>TKinter.Canvas</em>) &#8211; the canvas on which to draw the tile list</li>
+<li><strong>blockSize</strong> (<em>int</em>) &#8211; the desired size of the blocks within the tile list, which is calculated outside the function in order to have uniformity across the tile list</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="tilebuilder-class">
+<h2>TileBuilder Class<a class="headerlink" href="#tilebuilder-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="game.TileBuilder">
+<em class="property">class </em><code class="descclassname">game.</code><code class="descname">TileBuilder</code><span class="sig-paren">(</span><em>v</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#TileBuilder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.TileBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper class used to create the tiles.</p>
+<dl class="method">
+<dt id="game.TileBuilder.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>v</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#TileBuilder.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#game.TileBuilder.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>v</strong> (<em>char</em>) &#8211; the character to be stored in the cell</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="static-methods">
+<h2>Static Methods<a class="headerlink" href="#static-methods" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">game.</code><code class="descname">printGrid</code><span class="sig-paren">(</span><em>grid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#printGrid"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Prints grid.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>grid</strong> (<em>2-D array</em>) &#8211; grid to be printed</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">game.</code><code class="descname">printTile</code><span class="sig-paren">(</span><em>tile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#printTile"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Prints tile.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tile</strong> (<a class="reference internal" href="#game.Tile" title="game.Tile"><em>Tile</em></a>) &#8211; tile to be printed</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">game.</code><code class="descname">gridFromTile</code><span class="sig-paren">(</span><em>tile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#gridFromTile"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Extracts grid from given tile builder.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tile</strong> (<a class="reference internal" href="#game.TileBuilder" title="game.TileBuilder"><em>TileBuilder</em></a>) &#8211; tile to extract grid from</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">grid represented by given tile</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">2-D array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">game.</code><code class="descname">buildTile</code><span class="sig-paren">(</span><em>grid</em>, <em>i</em>, <em>j</em>, <em>size=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#buildTile"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Creates a tile builder describing the shape of the tile. Starts at the i-th row and j-th col and consumes every tile square within 1 space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>grid</strong> (<em>2-D array</em>) &#8211; the array of the file being loaded</li>
+<li><strong>i</strong> (<em>int</em>) &#8211; row to start building from</li>
+<li><strong>j</strong> (<em>int</em>) &#8211; col to start building from</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tile builder and tile size</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">TileBuilder and int</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">game.</code><code class="descname">randomColor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#randomColor"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Gives a random color.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a random color</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">color formatted as &#8216;#RRGGBB&#8217;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">game.</code><code class="descname">toGrayScale</code><span class="sig-paren">(</span><em>rgb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#toGrayScale"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Converts rgb to grayscale. Red, green, and blue are weighted according to cognitive research into how human vision weights each of the basic colors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rgb</strong> (<em>str</em>) &#8211; color to be converted to grayscale, formatted as &#8216;#RRGGBB&#8217;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">grayscale color</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">color formatted as &#8216;#RRGGBB&#8217;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">game.</code><code class="descname">groupTiles</code><span class="sig-paren">(</span><em>tiles</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#groupTiles"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Groups together non-distinct tiles.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tiles</strong> &#8211; the dict containing the all tiles on the board</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">game.</code><code class="descname">copyGrid</code><span class="sig-paren">(</span><em>grid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#copyGrid"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Creates a copy of grid in a new array so that future modifications do not affect the old grid.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>grid</strong> (<em>2-D array</em>) &#8211; the array that is being copied</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a deepcopy of grid</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">2-D array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">game.</code><code class="descname">flipHorizontally</code><span class="sig-paren">(</span><em>grid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#flipHorizontally"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Creates a copy of grid that is reflected across the y-axis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>grid</strong> (<em>2-D array</em>) &#8211; the array that is being flipped</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a horizontally flipped version of grid</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">2-D array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">game.</code><code class="descname">flipVertically</code><span class="sig-paren">(</span><em>grid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#flipVertically"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Creates a copy of grid that is reflected across the x-axis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>grid</strong> (<em>2-D array</em>) &#8211; the array that is being flipped</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a vertically flipped version of grid</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">2-D array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">game.</code><code class="descname">transpose</code><span class="sig-paren">(</span><em>grid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#transpose"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Creates a transposed copy of grid.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>grid</strong> (<em>2-D array</em>) &#8211; the array that is being transposed</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a version of grid that has had the rows and columns swapped</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">2-D array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">game.</code><code class="descname">rotateClockwise</code><span class="sig-paren">(</span><em>grid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#rotateClockwise"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Creates a clockwise-rotated copy of grid. This is accomplished by noting the fact that a clockwise rotation can be accomplished with a transpose followed by a horizontal flip.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>grid</strong> (<em>2-D array</em>) &#8211; the array that is being rotated</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a version of grid that has been rotated clockwise</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">2-D array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">game.</code><code class="descname">rotateNTimes</code><span class="sig-paren">(</span><em>grid</em>, <em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#rotateNTimes"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Creates a copy of grid that has been rotated clockwise N times.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>grid</strong> (<em>2-D array</em>) &#8211; the array that is being transposed</li>
+<li><strong>n</strong> (<em>int</em>) &#8211; the number of times to rotate the grid</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a version of grid that has had the rows and columns swapped</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">2-D array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">game.</code><code class="descname">equivalentGrids</code><span class="sig-paren">(</span><em>grid1</em>, <em>grid2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game.html#equivalentGrids"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Determines whether grid1 and grid2 share equality in all cells.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>grid1</strong> (<em>2-D array</em>) &#8211; the array that is being transposed</li>
+<li><strong>grid2</strong> (<em>2-D array</em>) &#8211; the array that is being transposed</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">whether or not the given grids are equivalent</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="main.html" class="btn btn-neutral float-right" title="The Main Module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to Tiling Puzzle Solver’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Nathan Williams.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

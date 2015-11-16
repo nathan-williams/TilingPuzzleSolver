@@ -1,0 +1,512 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Example Puzzles &mdash; Tiling Puzzle Solver 1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Tiling Puzzle Solver 1 documentation" href="index.html"/>
+        <link rel="prev" title="The Main Module" href="main.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Tiling Puzzle Solver
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="game.html">Game Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">The Main Module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Example Puzzles</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#checkerboard">Checkerboard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom1">Custom1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#partial-cross">Partial Cross</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pentominoes-3x20">Pentominoes [3x20]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pentominoes-4x15">Pentominoes [4x15]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pentominoes-5x12">Pentominoes [5x12]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pentominoes-6x10">Pentominoes [6x10]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pentominoes-8x8-middle-missing">Pentominoes [8x8] Middle Missing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#simple">Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test1">Test1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test2">Test2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#thirteen-holes">Thirteen Holes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#trivial">Trivial</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Tiling Puzzle Solver</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Example Puzzles</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/examples.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="example-puzzles">
+<h1>Example Puzzles<a class="headerlink" href="#example-puzzles" title="Permalink to this headline">¶</a></h1>
+<p>These are some puzzles with their respective solution listings. A maximum of 36 solutions are shown per puzzle, so there may be additional solutions.</p>
+<div class="section" id="checkerboard">
+<h2>Checkerboard<a class="headerlink" href="#checkerboard" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/1.svg"><img src="_images/1.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/2.svg"><img src="_images/2.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/3.svg"><img src="_images/3.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/4.svg"><img src="_images/4.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/5.svg"><img src="_images/5.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/6.svg"><img src="_images/6.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/7.svg"><img src="_images/7.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/8.svg"><img src="_images/8.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/9.svg"><img src="_images/9.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/10.svg"><img src="_images/10.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/11.svg"><img src="_images/11.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/12.svg"><img src="_images/12.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/13.svg"><img src="_images/13.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/14.svg"><img src="_images/14.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/15.svg"><img src="_images/15.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/16.svg"><img src="_images/16.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/17.svg"><img src="_images/17.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/18.svg"><img src="_images/18.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/19.svg"><img src="_images/19.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/20.svg"><img src="_images/20.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/21.svg"><img src="_images/21.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/22.svg"><img src="_images/22.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/23.svg"><img src="_images/23.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/24.svg"><img src="_images/24.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/25.svg"><img src="_images/25.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/26.svg"><img src="_images/26.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/27.svg"><img src="_images/27.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/28.svg"><img src="_images/28.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/29.svg"><img src="_images/29.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/30.svg"><img src="_images/30.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/31.svg"><img src="_images/31.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/32.svg"><img src="_images/32.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/33.svg"><img src="_images/33.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/34.svg"><img src="_images/34.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/35.svg"><img src="_images/35.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/36.svg"><img src="_images/36.svg" width="20%" /></a>
+</div>
+<div class="section" id="custom1">
+<h2>Custom1<a class="headerlink" href="#custom1" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/110.svg"><img src="_images/110.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/210.svg"><img src="_images/210.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/37.svg"><img src="_images/37.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/41.svg"><img src="_images/41.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/51.svg"><img src="_images/51.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/61.svg"><img src="_images/61.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/71.svg"><img src="_images/71.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/81.svg"><img src="_images/81.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/91.svg"><img src="_images/91.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/101.svg"><img src="_images/101.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/111.svg"><img src="_images/111.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/121.svg"><img src="_images/121.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/131.svg"><img src="_images/131.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/141.svg"><img src="_images/141.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/151.svg"><img src="_images/151.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/161.svg"><img src="_images/161.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/171.svg"><img src="_images/171.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/181.svg"><img src="_images/181.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/191.svg"><img src="_images/191.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/201.svg"><img src="_images/201.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/211.svg"><img src="_images/211.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/221.svg"><img src="_images/221.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/231.svg"><img src="_images/231.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/241.svg"><img src="_images/241.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/251.svg"><img src="_images/251.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/261.svg"><img src="_images/261.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/271.svg"><img src="_images/271.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/281.svg"><img src="_images/281.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/291.svg"><img src="_images/291.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/301.svg"><img src="_images/301.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/311.svg"><img src="_images/311.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/321.svg"><img src="_images/321.svg" width="20%" /></a>
+</div>
+<div class="section" id="partial-cross">
+<h2>Partial Cross<a class="headerlink" href="#partial-cross" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/112.svg"><img src="_images/112.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/212.svg"><img src="_images/212.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/38.svg"><img src="_images/38.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/42.svg"><img src="_images/42.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/52.svg"><img src="_images/52.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/62.svg"><img src="_images/62.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/72.svg"><img src="_images/72.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/82.svg"><img src="_images/82.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/92.svg"><img src="_images/92.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/102.svg"><img src="_images/102.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/113.svg"><img src="_images/113.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/122.svg"><img src="_images/122.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/132.svg"><img src="_images/132.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/142.svg"><img src="_images/142.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/152.svg"><img src="_images/152.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/162.svg"><img src="_images/162.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/172.svg"><img src="_images/172.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/182.svg"><img src="_images/182.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/192.svg"><img src="_images/192.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/202.svg"><img src="_images/202.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/213.svg"><img src="_images/213.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/222.svg"><img src="_images/222.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/232.svg"><img src="_images/232.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/242.svg"><img src="_images/242.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/252.svg"><img src="_images/252.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/262.svg"><img src="_images/262.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/272.svg"><img src="_images/272.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/282.svg"><img src="_images/282.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/292.svg"><img src="_images/292.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/302.svg"><img src="_images/302.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/312.svg"><img src="_images/312.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/322.svg"><img src="_images/322.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/331.svg"><img src="_images/331.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/341.svg"><img src="_images/341.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/351.svg"><img src="_images/351.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/361.svg"><img src="_images/361.svg" width="20%" /></a>
+</div>
+<div class="section" id="pentominoes-3x20">
+<h2>Pentominoes [3x20]<a class="headerlink" href="#pentominoes-3x20" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/114.svg"><img src="_images/114.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/214.svg"><img src="_images/214.svg" width="20%" /></a>
+</div>
+<div class="section" id="pentominoes-4x15">
+<h2>Pentominoes [4x15]<a class="headerlink" href="#pentominoes-4x15" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/115.svg"><img src="_images/115.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/215.svg"><img src="_images/215.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/39.svg"><img src="_images/39.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/43.svg"><img src="_images/43.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/53.svg"><img src="_images/53.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/63.svg"><img src="_images/63.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/73.svg"><img src="_images/73.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/83.svg"><img src="_images/83.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/93.svg"><img src="_images/93.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/103.svg"><img src="_images/103.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/116.svg"><img src="_images/116.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/123.svg"><img src="_images/123.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/133.svg"><img src="_images/133.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/143.svg"><img src="_images/143.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/153.svg"><img src="_images/153.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/163.svg"><img src="_images/163.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/173.svg"><img src="_images/173.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/183.svg"><img src="_images/183.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/193.svg"><img src="_images/193.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/203.svg"><img src="_images/203.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/216.svg"><img src="_images/216.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/223.svg"><img src="_images/223.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/233.svg"><img src="_images/233.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/243.svg"><img src="_images/243.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/253.svg"><img src="_images/253.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/263.svg"><img src="_images/263.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/273.svg"><img src="_images/273.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/283.svg"><img src="_images/283.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/293.svg"><img src="_images/293.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/303.svg"><img src="_images/303.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/313.svg"><img src="_images/313.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/323.svg"><img src="_images/323.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/332.svg"><img src="_images/332.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/342.svg"><img src="_images/342.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/352.svg"><img src="_images/352.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/362.svg"><img src="_images/362.svg" width="20%" /></a>
+</div>
+<div class="section" id="pentominoes-5x12">
+<h2>Pentominoes [5x12]<a class="headerlink" href="#pentominoes-5x12" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/117.svg"><img src="_images/117.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/217.svg"><img src="_images/217.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/310.svg"><img src="_images/310.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/44.svg"><img src="_images/44.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/54.svg"><img src="_images/54.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/64.svg"><img src="_images/64.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/74.svg"><img src="_images/74.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/84.svg"><img src="_images/84.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/94.svg"><img src="_images/94.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/104.svg"><img src="_images/104.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/118.svg"><img src="_images/118.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/124.svg"><img src="_images/124.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/134.svg"><img src="_images/134.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/144.svg"><img src="_images/144.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/154.svg"><img src="_images/154.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/164.svg"><img src="_images/164.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/174.svg"><img src="_images/174.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/184.svg"><img src="_images/184.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/194.svg"><img src="_images/194.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/204.svg"><img src="_images/204.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/218.svg"><img src="_images/218.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/224.svg"><img src="_images/224.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/234.svg"><img src="_images/234.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/244.svg"><img src="_images/244.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/254.svg"><img src="_images/254.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/264.svg"><img src="_images/264.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/274.svg"><img src="_images/274.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/284.svg"><img src="_images/284.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/294.svg"><img src="_images/294.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/304.svg"><img src="_images/304.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/314.svg"><img src="_images/314.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/324.svg"><img src="_images/324.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/333.svg"><img src="_images/333.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/343.svg"><img src="_images/343.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/353.svg"><img src="_images/353.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/363.svg"><img src="_images/363.svg" width="20%" /></a>
+</div>
+<div class="section" id="pentominoes-6x10">
+<h2>Pentominoes [6x10]<a class="headerlink" href="#pentominoes-6x10" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/119.svg"><img src="_images/119.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/219.svg"><img src="_images/219.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/315.svg"><img src="_images/315.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/45.svg"><img src="_images/45.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/55.svg"><img src="_images/55.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/65.svg"><img src="_images/65.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/75.svg"><img src="_images/75.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/85.svg"><img src="_images/85.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/95.svg"><img src="_images/95.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/105.svg"><img src="_images/105.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/1110.svg"><img src="_images/1110.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/125.svg"><img src="_images/125.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/135.svg"><img src="_images/135.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/145.svg"><img src="_images/145.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/155.svg"><img src="_images/155.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/165.svg"><img src="_images/165.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/175.svg"><img src="_images/175.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/185.svg"><img src="_images/185.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/195.svg"><img src="_images/195.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/205.svg"><img src="_images/205.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/2110.svg"><img src="_images/2110.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/225.svg"><img src="_images/225.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/235.svg"><img src="_images/235.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/245.svg"><img src="_images/245.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/255.svg"><img src="_images/255.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/265.svg"><img src="_images/265.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/275.svg"><img src="_images/275.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/285.svg"><img src="_images/285.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/295.svg"><img src="_images/295.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/305.svg"><img src="_images/305.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/316.svg"><img src="_images/316.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/325.svg"><img src="_images/325.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/334.svg"><img src="_images/334.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/344.svg"><img src="_images/344.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/354.svg"><img src="_images/354.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/364.svg"><img src="_images/364.svg" width="20%" /></a>
+</div>
+<div class="section" id="pentominoes-8x8-middle-missing">
+<h2>Pentominoes [8x8] Middle Missing<a class="headerlink" href="#pentominoes-8x8-middle-missing" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/120.svg"><img src="_images/120.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/220.svg"><img src="_images/220.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/317.svg"><img src="_images/317.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/46.svg"><img src="_images/46.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/56.svg"><img src="_images/56.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/66.svg"><img src="_images/66.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/76.svg"><img src="_images/76.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/86.svg"><img src="_images/86.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/96.svg"><img src="_images/96.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/106.svg"><img src="_images/106.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/1111.svg"><img src="_images/1111.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/126.svg"><img src="_images/126.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/136.svg"><img src="_images/136.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/146.svg"><img src="_images/146.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/156.svg"><img src="_images/156.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/166.svg"><img src="_images/166.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/176.svg"><img src="_images/176.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/186.svg"><img src="_images/186.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/196.svg"><img src="_images/196.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/206.svg"><img src="_images/206.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/2111.svg"><img src="_images/2111.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/226.svg"><img src="_images/226.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/236.svg"><img src="_images/236.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/246.svg"><img src="_images/246.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/256.svg"><img src="_images/256.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/266.svg"><img src="_images/266.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/276.svg"><img src="_images/276.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/286.svg"><img src="_images/286.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/296.svg"><img src="_images/296.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/306.svg"><img src="_images/306.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/318.svg"><img src="_images/318.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/326.svg"><img src="_images/326.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/335.svg"><img src="_images/335.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/345.svg"><img src="_images/345.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/355.svg"><img src="_images/355.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/365.svg"><img src="_images/365.svg" width="20%" /></a>
+</div>
+<div class="section" id="simple">
+<h2>Simple<a class="headerlink" href="#simple" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/127.svg"><img src="_images/127.svg" width="20%" /></a>
+</div>
+<div class="section" id="test1">
+<h2>Test1<a class="headerlink" href="#test1" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/128.svg"><img src="_images/128.svg" width="20%" /></a>
+</div>
+<div class="section" id="test2">
+<h2>Test2<a class="headerlink" href="#test2" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/129.svg"><img src="_images/129.svg" width="20%" /></a>
+</div>
+<div class="section" id="thirteen-holes">
+<h2>Thirteen Holes<a class="headerlink" href="#thirteen-holes" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/130.svg"><img src="_images/130.svg" width="20%" /></a>
+<a class="reference internal image-reference" href="_images/227.svg"><img src="_images/227.svg" width="20%" /></a>
+</div>
+<div class="section" id="trivial">
+<h2>Trivial<a class="headerlink" href="#trivial" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/137.svg"><img src="_images/137.svg" width="20%" /></a>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="main.html" class="btn btn-neutral" title="The Main Module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Nathan Williams.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
